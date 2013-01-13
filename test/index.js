@@ -3,6 +3,7 @@
 var Chai = require('chai');
 var Hoek = require('hoek');
 var Iron = process.env.TEST_COV ? require('../lib-cov') : require('../lib');
+var Cryptiles = require('cryptiles');
 
 
 // Declare internals
@@ -38,29 +39,6 @@ describe('Iron', function () {
 
                 expect(err).to.not.exist;
                 expect(unsealed).to.deep.equal(obj);
-                done();
-            });
-        });
-    });
-
-    describe('#randomBits', function () {
-
-        it('returns an error on invalid input', function (done) {
-
-            Iron.randomBits(0, function (err, buffer) {
-
-                expect(err).to.exist;
-                expect(err.message).to.equal('Invalid random bits count');
-                done();
-            });
-        });
-
-        it('returns an error on invalid bits size', function (done) {
-
-            Iron.randomBits(99999999999999999999, function (err, buffer) {
-
-                expect(err).to.exist;
-                expect(err.message).to.equal('Failed generating random bits: Argument #1 must be number > 0');
                 done();
             });
         });
@@ -131,17 +109,17 @@ describe('Iron', function () {
 
         it('returns an error when randomBits fails', function (done) {
 
-            var orig = Iron.randomBits;
-            Iron.randomBits = function (bits, callback) {
+            var orig = Cryptiles.randomBits;
+            Cryptiles.randomBits = function (bits) {
 
-                return callback(new Error('fake'));
+                return new Error('fake');
             };
 
             var options = Hoek.clone(Iron.defaults.encryptionKey);
             options.salt = 'abcdefg';
             Iron.generateKey('password', options, function (err, result) {
 
-                Iron.randomBits = orig;
+                Cryptiles.randomBits = orig;
                 expect(err).to.exist;
                 expect(err.message).to.equal('fake');
                 done();
@@ -224,7 +202,7 @@ describe('Iron', function () {
 
         it('unseals a ticket', function (done) {
 
-            var ticket = '40ca744d63713c0e4a09cc16621083ecededf1e2103db52201f2712b8c579eeb:AcFbQ6iQEVW-Chn1w3v9-x5An__p4W5FsfqGPQyQZso:3d8b146df53292f10b311a1ed24b4a03279986fa886d3dc065faa0e93151f6fd:mEkHrrYuNk7MzUP19neFIQ:nQ_A39ciP2TTazIgcDGuPHeyVjcyBmtV1gGxkhSpnFL5KBCnK0WfOrEzbrZeM05S';
+            var ticket = '6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.not.exist;
@@ -235,7 +213,7 @@ describe('Iron', function () {
 
         it('returns an error when number of sealed components is wrong', function (done) {
 
-            var ticket = 'x:40ca744d63713c0e4a09cc16621083ecededf1e2103db52201f2712b8c579eeb:AcFbQ6iQEVW-Chn1w3v9-x5An__p4W5FsfqGPQyQZso:3d8b146df53292f10b311a1ed24b4a03279986fa886d3dc065faa0e93151f6fd:mEkHrrYuNk7MzUP19neFIQ:nQ_A39ciP2TTazIgcDGuPHeyVjcyBmtV1gGxkhSpnFL5KBCnK0WfOrEzbrZeM05S';
+            var ticket = 'x:6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -244,9 +222,9 @@ describe('Iron', function () {
             });
         });
 
-        it('returns an error when number of password is missing', function (done) {
+        it('returns an error when password is missing', function (done) {
 
-            var ticket = '40ca744d63713c0e4a09cc16621083ecededf1e2103db52201f2712b8c579eeb:AcFbQ6iQEVW-Chn1w3v9-x5An__p4W5FsfqGPQyQZso:3d8b146df53292f10b311a1ed24b4a03279986fa886d3dc065faa0e93151f6fd:mEkHrrYuNk7MzUP19neFIQ:nQ_A39ciP2TTazIgcDGuPHeyVjcyBmtV1gGxkhSpnFL5KBCnK0WfOrEzbrZeM05S';
+            var ticket = '6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
             Iron.unseal(ticket, null, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -255,9 +233,20 @@ describe('Iron', function () {
             });
         });
 
+        it('returns an error when mac prefix is wrong', function (done) {
+
+            var ticket = '6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.2:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
+            Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
+
+                expect(err).to.exist;
+                expect(err.message).to.equal('Wrong mac prefix');
+                done();
+            });
+        });
+
         it('returns an error when integrity check fails', function (done) {
 
-            var ticket = '40ca744d63713c0e4a09cc16621083ecededf1e2103db52201f2712b8c579eeb:XXAcFbQ6iQEVW-Chn1w3v9-x5An__p4W5FsfqGPQyQZso:3d8b146df53292f10b311a1ed24b4a03279986fa886d3dc065faa0e93151f6fd:mEkHrrYuNk7MzUP19neFIQ:nQ_A39ciP2TTazIgcDGuPHeyVjcyBmtV1gGxkhSpnFL5KBCnK0WfOrEzbrZeM05S';
+            var ticket = 'X6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -268,9 +257,9 @@ describe('Iron', function () {
 
         it('returns an error when decryption fails', function (done) {
 
-            var macBaseString = '3d8b146df53292f10b311a1ed24b4a03279986fa886d3dc065faa0e93151f6fd:mEkHrrYuNk7MzUP19neFIQ:nQ_A39ciP2TTazIgcDGuPHeyVjcyBmtV1gGxkhSpnFL5KBCnK0WfOrEzbrZeM05S??';
+            var macBaseString = 'Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN??';
             var options = Hoek.clone(Iron.defaults.integrityKey);
-            options.salt = 'AcFbQ6iQEVW-Chn1w3v9-x5An__p4W5FsfqGPQyQZso';
+            options.salt = '2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U';
             Iron.hmacWithPassword(password, options, macBaseString, function (err, mac) {
 
                 var ticket = mac.salt + ':' + mac.digest + ':' + macBaseString;
@@ -290,7 +279,7 @@ describe('Iron', function () {
 
                 var encryptedB64 = Hoek.base64urlEncode(encrypted);
                 var iv = Hoek.base64urlEncode(key.iv);
-                var macBaseString = key.salt + ':' + iv + ':' + encryptedB64;
+                var macBaseString = Iron.macPrefix + ':' + key.salt + ':' + iv + ':' + encryptedB64;
                 Iron.hmacWithPassword(password, Iron.defaults.integrityKey, macBaseString, function (err, mac) {
 
                     var ticket = mac.salt + ':' + mac.digest + ':' + macBaseString;

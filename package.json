@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "hoek": "0.0.x",
-    "boom": "0.0.x"
+    "boom": "0.0.x",
+    "cryptiles": "0.0.x"
   },
   "devDependencies": {
     "mocha": "1.x.x",

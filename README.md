@@ -17,8 +17,6 @@ Current version: **0.0.1**
 <p></p>
 - [Usage](#usage)
   - [Options](#options)
-  - [Password Rotation](#password-rotation)
-  - [Protocol Example](#protocol-example)
 <p></p>
 - [**Security Considerations**](#security-considerations)
   - [Plaintext Storage of Credentials](#plaintext-storage-of-credentials)
@@ -36,6 +34,17 @@ applications not under your control, without exposing the details of this state 
 For example, sealed objects allow you to encrypt the permissions granted to the authenticated user, store those permissions
 using a cookie, without worrying about someone modifying (or even knowing) what those permissions are. Any modification to
 the encrypted data will invalidate its integrity.
+
+The seal process follows these general steps:
+
+- generate encryption salt `saltE`
+- derive an encryption key `keyE` using `saltE` and a password
+- generate an integrity salt `saltI`
+- derive an integrity (HMAC) key `keyI` using `saltI`
+- generate a random [initialization vector](http://en.wikipedia.org/wiki/Initialization_vector) `iv`
+- encrypt the serialized object string using `keyE` and `iv`
+- mac the encrypted object along with `saltE` and `iv`
+- concatenate `saltE`, `saltI`, `iv`, and the encrypted object into a URI-friendly string
 
 
 # Usage
@@ -72,12 +81,36 @@ Iron.unseal(sealed, password, Iron.defaults, function (err, unsealed) {
 
 ### Options
 
+**iron** provides a few options for customizing the key deriviation algorithm used to generate encryption and integrity
+verification keys as well as the algorithms and salt sizes used. The _'seal()'_ and _'unseal()'_ methods take an options
+object with the following **required** keys:
 
-### Password Rotation
+- `encryption` - defines the options used by the encryption process.
+- `integrity` - defines the options used by the HMAC itegrity verification process.
 
+Each of these option objects includes the following **required** keys:
 
+- `saltBits` - the size of the salt (random buffer used to ensure that two identical objects will generate a different encrypted result.
+- `algorithm` - the algorithm used ('aes-256-cbc' for encryption and 'sha256' for integrity are the only two supported at this time).
+- `iterations` - the number of iterations used to derive a key from the password (set to '1' if not sure).
 
-## Protocol Example
+**iron** includes a default options object which can be passed to the methods as shown above in the example. The default
+settings are:
+
+```javascript
+var options = {
+    encryption: {
+        saltBits: 256,
+        algorithm: 'aes-256-cbc',
+        iterations: 1
+    },
+    integrity: {
+        saltBits: 256,
+        algorithm: 'sha256',
+        iterations: 1
+    }
+};
+```
 
 
 # Security Considerations
@@ -111,6 +144,12 @@ something? Open an issue!
 
 No but it's close. Until this module reaches version 1.0.0 it is considered experimental and is likely to change. This also
 means your feedback and contribution are very welcome. Feel free to open issues with questions and suggestions.
+
+
+### How come the defaults must be manually passed and not automatically applied?
+
+Because you should know what you are doing and explicitly set it. The options matter a lot to the security properties of the
+implementation. While reasonable defaults are provided, you still need to explicitly state you want to use them.
 
 
 # Acknowledgements

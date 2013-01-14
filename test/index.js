@@ -146,7 +146,7 @@ describe('Iron', function () {
                 return new Error('fake');
             };
 
-            var options = Hoek.clone(Iron.defaults.encryptionKey);
+            var options = Hoek.clone(Iron.defaults.encryption);
             options.salt = 'abcdefg';
             Iron.generateKey('password', options, function (err, result) {
 
@@ -165,7 +165,7 @@ describe('Iron', function () {
                 return callback(new Error('fake'));
             };
 
-            Iron.generateKey('password', Iron.defaults.encryptionKey, function (err, result) {
+            Iron.generateKey('password', Iron.defaults.encryption, function (err, result) {
 
                 Crypto.pbkdf2 = orig;
                 expect(err).to.exist;
@@ -226,15 +226,15 @@ describe('Iron', function () {
             });
         });
 
-        it('returns an error when integrityKey options are missing', function (done) {
+        it('returns an error when integrity options are missing', function (done) {
 
             var options = {
-                encryptionKey: {
+                encryption: {
                     saltBits: 256,
                     algorithm: 'aes-256-cbc',
                     iterations: 1
                 },
-                integrityKey: {}
+                integrity: {}
             };
 
             Iron.seal('data', 'password', options, function (err, sealed) {
@@ -306,7 +306,7 @@ describe('Iron', function () {
         it('returns an error when decryption fails', function (done) {
 
             var macBaseString = 'Fe26.1**f9eebba02da4315acd770116b07a32aa4e7a7fe5fa89e0b89d2157c5d05891ef*_vDwAc4vMs448xng9Xgc2g*lc48O_ArSZlw3cGHkYKEH0XWHimPPQV9V52vPEimWgs2FHxyoAS5gk1W20-QHrIA??';
-            var options = Hoek.clone(Iron.defaults.integrityKey);
+            var options = Hoek.clone(Iron.defaults.integrity);
             options.salt = '4a4818478f2d3b12536d4f0844ecc8c37d10e99b2f96bd63ab212bb1dc98aa3e';
             Iron.hmacWithPassword(password, options, macBaseString, function (err, mac) {
 
@@ -323,12 +323,12 @@ describe('Iron', function () {
         it('returns an error when decrypted object is invalid', function (done) {
 
             var badJson = '{asdasd';
-            Iron.encrypt(password, Iron.defaults.encryptionKey, badJson, function (err, encrypted, key) {
+            Iron.encrypt(password, Iron.defaults.encryption, badJson, function (err, encrypted, key) {
 
                 var encryptedB64 = Hoek.base64urlEncode(encrypted);
                 var iv = Hoek.base64urlEncode(key.iv);
                 var macBaseString = Iron.macPrefix + '**' + key.salt + '*' + iv + '*' + encryptedB64;
-                Iron.hmacWithPassword(password, Iron.defaults.integrityKey, macBaseString, function (err, mac) {
+                Iron.hmacWithPassword(password, Iron.defaults.integrity, macBaseString, function (err, mac) {
 
                     var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                     Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {

@@ -1,5 +1,6 @@
 // Load modules
 
+var Crypto = require('crypto');
 var Chai = require('chai');
 var Hoek = require('hoek');
 var Iron = process.env.TEST_COV ? require('../lib-cov') : require('../lib');
@@ -31,14 +32,29 @@ describe('Iron', function () {
 
     it('turns object into a ticket than parses the ticket successfully', function (done) {
 
-        Iron.seal(obj, password, Iron.defaults, function (err, sealed) {
+        Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, function (err, sealed) {
 
             expect(err).to.not.exist;
 
-            Iron.unseal(sealed, password, Iron.defaults, function (err, unsealed) {
+            Iron.unseal(sealed, { '1': password }, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.not.exist;
                 expect(unsealed).to.deep.equal(obj);
+                done();
+            });
+        });
+    });
+
+    it('fails to parse a sealed object when password not found', function (done) {
+
+        Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, function (err, sealed) {
+
+            expect(err).to.not.exist;
+
+            Iron.unseal(sealed, { '2': password }, Iron.defaults, function (err, unsealed) {
+
+                expect(err).to.exist;
+                expect(err.message).to.equal('Cannot find password: 1');
                 done();
             });
         });
@@ -107,7 +123,7 @@ describe('Iron', function () {
             });
         });
 
-        it('returns an error when randomBits fails', function (done) {
+        it('returns an error when Cryptiles.randomBits fails', function (done) {
 
             var orig = Cryptiles.randomBits;
             Cryptiles.randomBits = function (bits) {
@@ -120,6 +136,23 @@ describe('Iron', function () {
             Iron.generateKey('password', options, function (err, result) {
 
                 Cryptiles.randomBits = orig;
+                expect(err).to.exist;
+                expect(err.message).to.equal('fake');
+                done();
+            });
+        });
+
+        it('returns an error when Crypto.pbkdf2 fails', function (done) {
+
+            var orig = Crypto.pbkdf2;
+            Crypto.pbkdf2 = function (v1, v2, v3, v4, callback) {
+
+                return callback(new Error('fake'));
+            };
+
+            Iron.generateKey('password', Iron.defaults.encryptionKey, function (err, result) {
+
+                Crypto.pbkdf2 = orig;
                 expect(err).to.exist;
                 expect(err.message).to.equal('fake');
                 done();
@@ -202,7 +235,7 @@ describe('Iron', function () {
 
         it('unseals a ticket', function (done) {
 
-            var ticket = '6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
+            var ticket = 'Fe26.1::2bf1acf8622851cb8d57eb5e5d4c16f88fab29250b10c700ad39810798674959:3GV1tOKCvuLuHEPMlMPFOA:nLuYfC1mMsYth7DWrWwQS3cJHtxthhXxFfstYd2CCsPIHqoKq8Aw0HPoeVmHwmTS:83c5ec4ec07f0c8f108dd2c198a18e2f360f00d6be18ecb630ab8afba9396987:zvQKQkPEeDTTDnx7cJ62QxCgkxH910j_HMsnHyTXOY4';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.not.exist;
@@ -213,7 +246,7 @@ describe('Iron', function () {
 
         it('returns an error when number of sealed components is wrong', function (done) {
 
-            var ticket = 'x:6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
+            var ticket = 'x:Fe26.1::2bf1acf8622851cb8d57eb5e5d4c16f88fab29250b10c700ad39810798674959:3GV1tOKCvuLuHEPMlMPFOA:nLuYfC1mMsYth7DWrWwQS3cJHtxthhXxFfstYd2CCsPIHqoKq8Aw0HPoeVmHwmTS:83c5ec4ec07f0c8f108dd2c198a18e2f360f00d6be18ecb630ab8afba9396987:zvQKQkPEeDTTDnx7cJ62QxCgkxH910j_HMsnHyTXOY4';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -224,7 +257,7 @@ describe('Iron', function () {
 
         it('returns an error when password is missing', function (done) {
 
-            var ticket = '6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
+            var ticket = 'Fe26.1::2bf1acf8622851cb8d57eb5e5d4c16f88fab29250b10c700ad39810798674959:3GV1tOKCvuLuHEPMlMPFOA:nLuYfC1mMsYth7DWrWwQS3cJHtxthhXxFfstYd2CCsPIHqoKq8Aw0HPoeVmHwmTS:83c5ec4ec07f0c8f108dd2c198a18e2f360f00d6be18ecb630ab8afba9396987:zvQKQkPEeDTTDnx7cJ62QxCgkxH910j_HMsnHyTXOY4';
             Iron.unseal(ticket, null, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -235,7 +268,7 @@ describe('Iron', function () {
 
         it('returns an error when mac prefix is wrong', function (done) {
 
-            var ticket = '6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.2:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
+            var ticket = 'Fe27.1::2bf1acf8622851cb8d57eb5e5d4c16f88fab29250b10c700ad39810798674959:3GV1tOKCvuLuHEPMlMPFOA:nLuYfC1mMsYth7DWrWwQS3cJHtxthhXxFfstYd2CCsPIHqoKq8Aw0HPoeVmHwmTS:83c5ec4ec07f0c8f108dd2c198a18e2f360f00d6be18ecb630ab8afba9396987:zvQKQkPEeDTTDnx7cJ62QxCgkxH910j_HMsnHyTXOY4';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -246,7 +279,7 @@ describe('Iron', function () {
 
         it('returns an error when integrity check fails', function (done) {
 
-            var ticket = 'X6b6102fe5d38adf169eb38545c5838043ce4789efa813c3a92dae3b314a4eff2:2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U:Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN';
+            var ticket = 'Fe26.1::2bf1acf8622851cb8d57eb5e5d4c16f88fab29250b10c700ad39810798674959:3GV1tOKCvuLuHEPMlMPFOA:nLuYfC1mMsYth7DWrWwQS3cJHtxthhXxFfstYd2CCsPIHqoKq8Aw0HPoeVmHwmTS:83c5ec4ec07f0c8f108dd2c198a18e2f360f00d6be18ecb630ab8afba9396987X:zvQKQkPEeDTTDnx7cJ62QxCgkxH910j_HMsnHyTXOY4';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                 expect(err).to.exist;
@@ -257,12 +290,12 @@ describe('Iron', function () {
 
         it('returns an error when decryption fails', function (done) {
 
-            var macBaseString = 'Fe26.1:5020531933fbd9f03c8862a8ddfa1a83865e5f3b3c2bfe3ba29e740eef24370a:Vvkp33V8DcEMpGBBOtY7qw:nzGw9V2gPgX5PbS_DRx6lHzDcXaMkdLE4op13uNsuU6aCXlmC2vr0fhY5LrjkioN??';
+            var macBaseString = 'Fe26.1::2bf1acf8622851cb8d57eb5e5d4c16f88fab29250b10c700ad39810798674959:3GV1tOKCvuLuHEPMlMPFOA:nLuYfC1mMsYth7DWrWwQS3cJHtxthhXxFfstYd2CCsPIHqoKq8Aw0HPoeVmHwmTS??';
             var options = Hoek.clone(Iron.defaults.integrityKey);
-            options.salt = '2vd2BkzOj3GE70MniYXtKVgEY-5PRvSfDAa5wL5pX-U';
+            options.salt = 'zvQKQkPEeDTTDnx7cJ62QxCgkxH910j_HMsnHyTXOY4';
             Iron.hmacWithPassword(password, options, macBaseString, function (err, mac) {
 
-                var ticket = mac.salt + ':' + mac.digest + ':' + macBaseString;
+                var ticket = macBaseString + ':' + mac.salt + ':' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                     expect(err).to.exist;
@@ -279,10 +312,10 @@ describe('Iron', function () {
 
                 var encryptedB64 = Hoek.base64urlEncode(encrypted);
                 var iv = Hoek.base64urlEncode(key.iv);
-                var macBaseString = Iron.macPrefix + ':' + key.salt + ':' + iv + ':' + encryptedB64;
+                var macBaseString = Iron.macPrefix + '::' + key.salt + ':' + iv + ':' + encryptedB64;
                 Iron.hmacWithPassword(password, Iron.defaults.integrityKey, macBaseString, function (err, mac) {
 
-                    var ticket = mac.salt + ':' + mac.digest + ':' + macBaseString;
+                    var ticket = macBaseString + ':' + mac.salt + ':' + mac.digest;
                     Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
                         expect(err).to.exist;

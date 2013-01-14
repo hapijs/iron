@@ -1,4 +1,4 @@
-# Iron
+![iron](https://raw.github.com/hueniverse/iron/master/images/iron.png)
 
 <img align="right" src="https://raw.github.com/hueniverse/iron/master/images/logo.png" />
 

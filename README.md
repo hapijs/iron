@@ -27,7 +27,7 @@ Current version: **0.0.1**
 
 # Introduction
 
-**iron** provides methods for encrypting an object, generating a massage authentication code (MAC), and serializing both
+**iron** provides methods for encrypting an object, generating a message authentication code (MAC), and serializing both
 into a cookie / URI / HTTP header friendly format. Sealed objects are useful in cases where state has to reside on other
 applications not under your control, without exposing the details of this state to those application.
 

@@ -239,6 +239,21 @@ describe('Iron', function () {
                 done();
             });
         });
+
+        it('produces the same mac when used with buffer password', function (done) {
+
+            var data = 'Not so random';
+            var key = Cryptiles.randomBits(256);
+            var hmac = Crypto.createHmac(Iron.defaults.integrity.algorithm, key).update(data);
+            var digest = hmac.digest('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '');
+
+            Iron.hmacWithPassword(key, Iron.defaults.integrity, data, function (err, result) {
+
+                expect(err).to.not.exist;
+                expect(result.digest).to.equal(digest);
+                done();
+            });
+        });
     });
 
     describe('#seal', function () {

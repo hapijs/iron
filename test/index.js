@@ -45,6 +45,33 @@ describe('Iron', function () {
         });
     });
 
+    it('turns object into a ticket than parses the ticket successfully (password buffer)', function (done) {
+
+        var key = Cryptiles.randomBits(256);
+        Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
+
+            expect(err).to.not.exist;
+
+            Iron.unseal(sealed, { 'default': key }, Iron.defaults, function (err, unsealed) {
+
+                expect(err).to.not.exist;
+                expect(unsealed).to.deep.equal(obj);
+                done();
+            });
+        });
+    });
+
+    it('fails to turns object into a ticket (password buffer too short)', function (done) {
+
+        var key = Cryptiles.randomBits(128);
+        Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
+
+            expect(err).to.exist;
+            expect(err.message).to.equal('Key buffer (password) too small');
+            done();
+        });
+    });
+
     it('turns object into a ticket than parses the ticket successfully (password object)', function (done) {
 
         Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, function (err, sealed) {

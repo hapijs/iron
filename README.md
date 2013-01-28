@@ -6,7 +6,7 @@ it lets you encrypt an object, send it around (in cookies, authentication creden
 decrypt it. The algorithm ensures that the message was not tempered with, and also provides a simple mechanism for
 password rotation.
 
-Current version: **0.0.1**
+Current version: **0.1.0**
 
 [![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)
 
@@ -111,6 +111,9 @@ var options = {
     }
 };
 ```
+
+Alternatively, a Buffer object of sufficient size (matching the algorithm key size requirement) can be passed as the
+password, in which case, `saltBits` and `iterations` are ignored and the buffer is used as-is.
 
 
 # Security Considerations

@@ -3,7 +3,7 @@
 var Crypto = require('crypto');
 var Chai = require('chai');
 var Hoek = require('hoek');
-var Iron = process.env.TEST_COV ? require('../lib-cov') : require('../lib');
+var Iron = require('../lib');
 var Cryptiles = require('cryptiles');
 
 

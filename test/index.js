@@ -1,7 +1,7 @@
 // Load modules
 
 var Crypto = require('crypto');
-var Chai = require('chai');
+var Lab = require('lab');
 var Hoek = require('hoek');
 var Iron = require('../lib');
 var Cryptiles = require('cryptiles');
@@ -14,7 +14,11 @@ var internals = {};
 
 // Test shortcuts
 
-var expect = Chai.expect;
+var expect = Lab.expect;
+var before = Lab.before;
+var after = Lab.after;
+var describe = Lab.experiment;
+var it = Lab.test;
 
 
 describe('Iron', function () {

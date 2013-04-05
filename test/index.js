@@ -171,19 +171,16 @@ describe('Iron', function () {
 
         it('returns an error when Cryptiles.randomBits fails', function (done) {
 
-            var orig = Cryptiles.randomBits;
-            Cryptiles.randomBits = function (bits) {
-
-                return new Error('fake');
-            };
-
             var options = Hoek.clone(Iron.defaults.encryption);
             options.salt = 'abcdefg';
+            options.algorithm = 'x';
+            Iron.algorithms['x'] = { keyBits: 256, ivBits: -1 };
+
             Iron.generateKey('password', options, function (err, result) {
 
-                Cryptiles.randomBits = orig;
+                boom();
                 expect(err).to.exist;
-                expect(err.message).to.equal('fake');
+                expect(err.message).to.equal('Invalid random bits count');
                 done();
             });
         });

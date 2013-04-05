@@ -178,7 +178,6 @@ describe('Iron', function () {
 
             Iron.generateKey('password', options, function (err, result) {
 
-                boom();
                 expect(err).to.exist;
                 expect(err.message).to.equal('Invalid random bits count');
                 done();

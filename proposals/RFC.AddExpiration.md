@@ -73,7 +73,7 @@ exports.unseal = function (sealed, password, options, callback) {
         var curTime = new Date().valueOf();
         var expTime = new Date(object.expirationTime).valueOf();
 
-        if (expTime <= curTime) {
+        if (curTime <= expTime) {
           // detach expiration time
           object = object.obj;
         } else {

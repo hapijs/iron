@@ -43,7 +43,7 @@ Only a few lines of code are added to support expiration. The expiration time co
 It is a plain text so that any client can replace it with a new expiration time or remove it as if there is no expiration time. 
 
 ## Proposed Solution 2
-Like the above solution, we can set expiration options in the *options* variable. In this solution, we create a new object with the passed original object and the computed expiration time. Then we encrypt the newly created object. In unsealing part, the expiration time from the decrypted object is used to determine if the encryption has expired or not.
+Like the above solution, we can set expiration options in the **options** variable. In this solution, we create a new object with the passed original object and the computed expiration time. Then we encrypt the newly created object. In unsealing part, the expiration time from the decrypted object is used to determine if the encryption has expired or not.
 
 ````
 exports.seal = function (object, password, options, callback) {

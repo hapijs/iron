@@ -29,8 +29,8 @@ exports.seal = function(object, password, options, callback) {
   
   var sealed = macBaseString + '*' + mac.salt + '*' + mac.digest;
   if (options.expiration.used === true && options.expiration.timeUnit && timeUnits[options.expiration.timeUnit] && options.expirataion.timeDiff) {
-    var curTime = new Time().valueOf();
-    sealed = sealed + '*' + new time(curTime + (options.expiration.timeUnit * options.expiration.timeDiff)).valueOf();
+    var curTime = new Date().valueOf();
+    sealed = sealed + '*' + new Date(curTime + (options.expiration.timeUnit * options.expiration.timeDiff)).valueOf();
   }
   return callback(null, sealed);
 };
@@ -48,11 +48,11 @@ Like the above solution, we can set expiration options in the **options** variab
 ````
 exports.seal = function (object, password, options, callback) {
   if (options.expiration.used === true && options.expiration.timeUnit && timeUnits[options.expiration.timeUnit] && options.expirataion.timeDiff) {
-    var curTime = new Time().valueOf();
+    var curTime = new Date().valueOf();
     // create a new object by attaching the expiration time
     object = {
       obj: object,
-      expirationTime: new time(curTime + (options.expiration.timeUnit * options.expiration.timeDiff)).valueOf()
+      expirationTime: new Date(curTime + (options.expiration.timeUnit * options.expiration.timeDiff)).valueOf()
     };
   }  
 

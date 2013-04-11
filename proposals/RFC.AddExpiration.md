@@ -4,7 +4,7 @@
 This document explains a proposal for supporting to include an optional expiration time somewhere in the iron sealed object and validate it when unsealing.
 
 ## Proposed Solution 1
-A very simple solution to this problem is to add **timestamp** of expiration time at the end of **sealed** variable. The decision of optional expiration time is determined by *options*. 
+A very simple solution to this problem is to add **timestamp** of expiration time at the end of **sealed** variable. The decision of optional expiration time is determined by **options**. 
 
 ````
 exports.defaults = {

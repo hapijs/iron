@@ -77,7 +77,7 @@ exports.unseal = function (sealed, password, options, callback) {
           // detach expiration time
           object = object.obj;
         } else {
-          return callback(Boom.internal('this encryption has expired'));
+          return callback(Boom.internal('This encryption has expired'));
         }
     }
     catch (err) {

@@ -6,7 +6,7 @@ it lets you encrypt an object, send it around (in cookies, authentication creden
 decrypt it. The algorithm ensures that the message was not tempered with, and also provides a simple mechanism for
 password rotation.
 
-Current version: **0.2.0**
+Current version: **0.3**
 
 [![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)
 

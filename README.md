@@ -157,6 +157,6 @@ implementation. While reasonable defaults are provided, you still need to explic
 
 # Acknowledgements
 
-Special thanks to Adam Barth for his infinite patiace, and always insightful feedback and advice.
+Special thanks to Adam Barth for his infinite patience, and always insightful feedback and advice.
 
 The **iron** logo was based on origin artwork created by [Chris Carrasco](http://chriscarrasco.com).

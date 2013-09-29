@@ -286,6 +286,16 @@ describe('Iron', function () {
                 done();
             });
         });
+
+        it('returns an error when password.id is invalid', function (done) {
+
+            Iron.seal('data', { id: 'asd$', secret: 'asd' }, {}, function (err, sealed) {
+
+                expect(err).to.exist;
+                expect(err.message).to.equal('Invalid password id');
+                done();
+            });
+        });
     });
 
     describe('#unseal', function () {

@@ -371,6 +371,22 @@ describe('Iron', function () {
                 });
             });
         });
+        it('returns an error when iv base64 decoding fails', function (done) {
+
+            var macBaseString = 'Fe26.1**f9eebba02da4315acd770116b07a32aa4e7a7fe5fa89e0b89d2157c5d05891ef*_vDwAc4vMs448xng9Xgc2g??*lc48O_ArSZlw3cGHkYKEH0XWHimPPQV9V52vPEimWgs2FHxyoAS5gk1W20-QHrIA';
+            var options = Hoek.clone(Iron.defaults.integrity);
+            options.salt = '4a4818478f2d3b12536d4f0844ecc8c37d10e99b2f96bd63ab212bb1dc98aa3e';
+            Iron.hmacWithPassword(password, options, macBaseString, function (err, mac) {
+
+                var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
+                Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
+
+                    expect(err).to.exist;
+                    expect(err.message).to.equal('Invalid character');
+                    done();
+                });
+            });
+        });
 
         it('returns an error when decrypted object is invalid', function (done) {
 

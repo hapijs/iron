@@ -6,7 +6,7 @@ it lets you encrypt an object, send it around (in cookies, authentication creden
 decrypt it. The algorithm ensures that the message was not tempered with, and also provides a simple mechanism for
 password rotation.
 
-Current version: **0.3**
+Current version: **1.0**
 
 [![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)
 
@@ -94,6 +94,12 @@ Each of these option objects includes the following **required** keys:
 - `algorithm` - the algorithm used ('aes-256-cbc' for encryption and 'sha256' for integrity are the only two supported at this time).
 - `iterations` - the number of iterations used to derive a key from the password (set to '1' if not sure).
 
+The _'seal()'_ and _'unseal()'_ methods also take the following **optional** options keys:
+
+- `ttl` - sealed object lifetime in milliseconds where 0 means forever. Defaults to 0.
+- `timestampSkewSec` - number of seconds of permitted clock skew for incoming expirations. Defaults to 60 seconds.
+- `localtimeOffsetMsec` - local clock time offset express in a number of milliseconds (positive or negative). Defaults to 0.
+
 **iron** includes a default options object which can be passed to the methods as shown above in the example. The default
 settings are:
 
@@ -108,7 +114,10 @@ var options = {
         saltBits: 256,
         algorithm: 'sha256',
         iterations: 1
-    }
+    },
+    ttl: 0,
+    timestampSkewSec: 60,
+    localtimeOffsetMsec: 0
 };
 ```
 
@@ -145,8 +154,8 @@ something? Open an issue!
 
 ### Is it done?
 
-No but it's close. Until this module reaches version 1.0.0 it is considered experimental and is likely to change. This also
-means your feedback and contribution are very welcome. Feel free to open issues with questions and suggestions.
+Pretty much. The API is locked and any changes to the 1.x branch will be backward compatible. Feel free to open issues with
+questions and suggestions.
 
 
 ### How come the defaults must be manually passed and not automatically applied?

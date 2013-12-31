@@ -8,7 +8,7 @@ password rotation.
 
 Current version: **2.0**
 
-Note: 2.0 is the same exact protocol as 1.1. The version increment refelects a change in
+Note: 2.0 is the same exact protocol as 1.0. The version increment refelects a change in
 the internal error format used by the module and used by the node API.
 
 [![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)

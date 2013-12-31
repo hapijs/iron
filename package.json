@@ -1,7 +1,7 @@
 {
   "name": "iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "Eran Hammer <eran@hueniverse.com> (http://hueniverse.com)",
   "contributors": [],
   "repository": "git://github.com/hueniverse/iron",
@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "hoek": "1.x.x",
-    "boom": "1.x.x",
-    "cryptiles": "1.x.x"
+    "boom": "2.x.x",
+    "cryptiles": "2.x.x"
   },
   "devDependencies": {
     "lab": "1.x.x"

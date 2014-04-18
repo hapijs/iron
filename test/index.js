@@ -57,7 +57,27 @@ describe('Iron', function () {
 
             expect(err).to.not.exist;
 
-            Iron.unseal(sealed, { 'default': password }, options, function (err, unsealed) {
+            Iron.unseal(sealed, { 'default': password }, Iron.defaults, function (err, unsealed) {
+
+                expect(err).to.not.exist;
+                expect(unsealed).to.deep.equal(obj);
+                done();
+            });
+        });
+    });
+
+    it('unseal and sealed object with expiration and time offset', function (done) {
+
+        var options = Hoek.clone(Iron.defaults);
+        options.ttl = 200;
+        options.localtimeOffsetMsec = -100000;
+        Iron.seal(obj, password, options, function (err, sealed) {
+
+            expect(err).to.not.exist;
+
+            var options2 = Hoek.clone(Iron.defaults);
+            options2.localtimeOffsetMsec = -100000;
+            Iron.unseal(sealed, { 'default': password }, options2, function (err, unsealed) {
 
                 expect(err).to.not.exist;
                 expect(unsealed).to.deep.equal(obj);

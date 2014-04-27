@@ -1,7 +1,7 @@
 {
   "name": "iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "Eran Hammer <eran@hueniverse.com> (http://hueniverse.com)",
   "contributors": [],
   "repository": "git://github.com/hueniverse/iron",
@@ -12,15 +12,15 @@
     "data integrity"
   ],
   "engines": {
-    "node": ">=0.10.21"
+    "node": ">=0.10.22"
   },
   "dependencies": {
-    "hoek": "1.x.x",
+    "hoek": "2.x.x",
     "boom": "2.x.x",
     "cryptiles": "2.x.x"
   },
   "devDependencies": {
-    "lab": "1.x.x"
+    "lab": "3.x.x"
   },
   "scripts": {
     "test": "make test-cov"

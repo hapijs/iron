@@ -128,6 +128,43 @@ describe('Iron', function () {
         });
     });
 
+    it('handles separate password buffers (password object)', function(done) {
+      var key = {
+        id: '1',
+        encryption: Cryptiles.randomBits(256),
+        integrity: Cryptiles.randomBits(256)
+      };
+
+      Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
+
+          expect(err).to.not.exist;
+
+          Iron.unseal(sealed, { '1': key }, Iron.defaults, function (err, unsealed) {
+
+              expect(err).to.not.exist;
+              done();
+          });
+      });
+    });
+
+    it('handles a common password buffer (password object)', function(done) {
+      var key = {
+        id: '1',
+        secret: Cryptiles.randomBits(256)
+      };
+
+      Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
+
+          expect(err).to.not.exist;
+
+          Iron.unseal(sealed, { '1': key }, Iron.defaults, function (err, unsealed) {
+
+              expect(err).to.not.exist;
+              done();
+          });
+      });
+    });
+
     it('fails to parse a sealed object when password not found', function (done) {
 
         Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, function (err, sealed) {

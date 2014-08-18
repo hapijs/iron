@@ -95,7 +95,7 @@ Each of these option objects includes the following **required** keys:
 
 - `saltBits` - the size of the salt (random buffer used to ensure that two identical objects will generate a different encrypted result.
 - `algorithm` - the algorithm used ('aes-256-cbc' for encryption and 'sha256' for integrity are the only two supported at this time).
-- `iterations` - the number of iterations used to derive a key from the password (set to '1' if not sure).
+- `iterations` - the number of iterations used to derive a key from the password. Set to 10000 by default. The number of ideal iterations to use is dependent on your application's performance requirements. More iterations means it takes longer to generate the key. For applications with frequent use, such as an encrypted HTTP cookie, the default will probably be ok. For a password manager, a higher iteration count of 100,000 is more appropriate.  (set to '10000' if not sure).
 
 The _'seal()'_ and _'unseal()'_ methods also take the following **optional** options keys:
 

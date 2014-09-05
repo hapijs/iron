@@ -6,12 +6,10 @@ it lets you encrypt an object, send it around (in cookies, authentication creden
 decrypt it. The algorithm ensures that the message was not tempered with, and also provides a simple mechanism for
 password rotation.
 
-Current version: **3.x**
+Current version: **2.x**
 
 Note: 2.x is the same exact protocol as 1.x (the version increment reflected a change in
-the internal error format used by the module and by the node API). 3.x is the same exact
-protocol as 2.x but the default iteration count was changed which will cause decryption
-errors among different versions.
+the internal error format used by the module and by the node API).
 
 [![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)
 
@@ -97,10 +95,8 @@ Each of these option objects includes the following **required** keys:
 
 - `saltBits` - the size of the salt (random buffer used to ensure that two identical objects will generate a different encrypted result.
 - `algorithm` - the algorithm used ('aes-256-cbc' for encryption and 'sha256' for integrity are the only two supported at this time).
-- `iterations` - the number of iterations used to derive a key from the password. Set to `10000` by default. The number of ideal iterations
-  to use is dependent on your application's performance requirements. More iterations means it takes longer to generate the key. For
-  applications with frequent use, such as an encrypted HTTP cookie, the default will probably be ok. For a password manager, a higher
-  iteration count of 100,000 is more appropriate.  (set to `10000` if not sure).
+- `iterations` - the number of iterations used to derive a key from the password. Set to `1` by default. The number of ideal iterations
+  to use is dependent on your application's performance requirements. More iterations means it takes longer to generate the key.3
 
 The _'seal()'_ and _'unseal()'_ methods also take the following **optional** options keys:
 
@@ -116,12 +112,12 @@ var options = {
     encryption: {
         saltBits: 256,
         algorithm: 'aes-256-cbc',
-        iterations: 10000
+        iterations: 1
     },
     integrity: {
         saltBits: 256,
         algorithm: 'sha256',
-        iterations: 10000
+        iterations: 1
     },
     ttl: 0,
     timestampSkewSec: 60,

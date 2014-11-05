@@ -3,7 +3,7 @@
 <img align="right" src="https://raw.github.com/hueniverse/iron/master/images/logo.png" /> **iron** is a cryptographic
 utility for sealing a JSON object using symmetric key encryption with message integrity verification. Or in other words,
 it lets you encrypt an object, send it around (in cookies, authentication credentials, etc.), then receive it back and
-decrypt it. The algorithm ensures that the message was not tempered with, and also provides a simple mechanism for
+decrypt it. The algorithm ensures that the message was not tampered with, and also provides a simple mechanism for
 password rotation.
 
 Current version: **2.x**

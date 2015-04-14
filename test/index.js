@@ -1,5 +1,6 @@
 // Load modules
 
+var Code = require('code');
 var Crypto = require('crypto');
 var Lab = require('lab');
 var Hoek = require('hoek');
@@ -19,7 +20,7 @@ var before = lab.before;
 var after = lab.after;
 var describe = lab.describe;
 var it = lab.it;
-var expect = Lab.expect;
+var expect = Code.expect;
 
 
 describe('Iron', function () {
@@ -239,7 +240,7 @@ describe('Iron', function () {
             Iron.generateKey('password', options, function (err) {
 
                 expect(err).to.exist;
-                expect(err.message).to.equal('Failed generating random bits: Argument #1 must be number > 0');
+                expect(err.message).to.match(/(Failed generating random bits: Argument #1 must be number > 0)|(Failed generating random bits: size must be a number >= 0)/);
                 done();
             });
         });

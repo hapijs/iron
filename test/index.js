@@ -240,9 +240,7 @@ describe('Iron', function () {
             Iron.generateKey('password', options, function (err) {
 
                 expect(err).to.exist;
-
-                var errorMessage = /(Failed generating random bits: Argument #1 must be number > 0)|(Failed generating random bits: size must be a number >= 0)/;
-                expect(err.message).to.match(errorMessage);
+                expect(err.message).to.match(/(Failed generating random bits: Argument #1 must be number > 0)|(Failed generating random bits: size must be a number >= 0)/);
                 done();
             });
         });

@@ -1,10 +1,11 @@
 // Load modules
 
 var Crypto = require('crypto');
-var Lab = require('lab');
+var Code = require('code');
+var Cryptiles = require('cryptiles');
 var Hoek = require('hoek');
 var Iron = require('../lib');
-var Cryptiles = require('cryptiles');
+var Lab = require('lab');
 
 
 // Declare internals
@@ -15,11 +16,9 @@ var internals = {};
 // Test shortcuts
 
 var lab = exports.lab = Lab.script();
-var before = lab.before;
-var after = lab.after;
 var describe = lab.describe;
 var it = lab.it;
-var expect = Lab.expect;
+var expect = Code.expect;
 
 
 describe('Iron', function () {
@@ -39,11 +38,11 @@ describe('Iron', function () {
 
         Iron.seal(obj, password, Iron.defaults, function (err, sealed) {
 
-            expect(err).to.not.exist;
+            expect(err).to.not.exist();
 
             Iron.unseal(sealed, { 'default': password }, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(unsealed).to.deep.equal(obj);
                 done();
             });
@@ -56,11 +55,11 @@ describe('Iron', function () {
         options.ttl = 200;
         Iron.seal(obj, password, options, function (err, sealed) {
 
-            expect(err).to.not.exist;
+            expect(err).to.not.exist();
 
             Iron.unseal(sealed, { 'default': password }, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(unsealed).to.deep.equal(obj);
                 done();
             });
@@ -74,13 +73,13 @@ describe('Iron', function () {
         options.localtimeOffsetMsec = -100000;
         Iron.seal(obj, password, options, function (err, sealed) {
 
-            expect(err).to.not.exist;
+            expect(err).to.not.exist();
 
             var options2 = Hoek.clone(Iron.defaults);
             options2.localtimeOffsetMsec = -100000;
             Iron.unseal(sealed, { 'default': password }, options2, function (err, unsealed) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(unsealed).to.deep.equal(obj);
                 done();
             });
@@ -92,11 +91,11 @@ describe('Iron', function () {
         var key = Cryptiles.randomBits(256);
         Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
 
-            expect(err).to.not.exist;
+            expect(err).to.not.exist();
 
             Iron.unseal(sealed, { 'default': key }, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(unsealed).to.deep.equal(obj);
                 done();
             });
@@ -108,7 +107,7 @@ describe('Iron', function () {
         var key = Cryptiles.randomBits(128);
         Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
 
-            expect(err).to.exist;
+            expect(err).to.exist();
             expect(err.message).to.equal('Key buffer (password) too small');
             done();
         });
@@ -118,63 +117,65 @@ describe('Iron', function () {
 
         Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, function (err, sealed) {
 
-            expect(err).to.not.exist;
+            expect(err).to.not.exist();
 
             Iron.unseal(sealed, { '1': password }, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(unsealed).to.deep.equal(obj);
                 done();
             });
         });
     });
 
-    it('handles separate password buffers (password object)', function(done) {
-      var key = {
-        id: '1',
-        encryption: Cryptiles.randomBits(256),
-        integrity: Cryptiles.randomBits(256)
-      };
+    it('handles separate password buffers (password object)', function (done) {
 
-      Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
+        var key = {
+            id: '1',
+            encryption: Cryptiles.randomBits(256),
+            integrity: Cryptiles.randomBits(256)
+        };
 
-          expect(err).to.not.exist;
+        Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
 
-          Iron.unseal(sealed, { '1': key }, Iron.defaults, function (err, unsealed) {
+            expect(err).to.not.exist();
 
-              expect(err).to.not.exist;
-              done();
-          });
-      });
+            Iron.unseal(sealed, { '1': key }, Iron.defaults, function (err, unsealed) {
+
+                expect(err).to.not.exist();
+                done();
+            });
+        });
     });
 
-    it('handles a common password buffer (password object)', function(done) {
-      var key = {
-        id: '1',
-        secret: Cryptiles.randomBits(256)
-      };
+    it('handles a common password buffer (password object)', function (done) {
 
-      Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
+        var key = {
+            id: '1',
+            secret: Cryptiles.randomBits(256)
+        };
 
-          expect(err).to.not.exist;
+        Iron.seal(obj, key, Iron.defaults, function (err, sealed) {
 
-          Iron.unseal(sealed, { '1': key }, Iron.defaults, function (err, unsealed) {
+            expect(err).to.not.exist();
 
-              expect(err).to.not.exist;
-              done();
-          });
-      });
+            Iron.unseal(sealed, { '1': key }, Iron.defaults, function (err, unsealed) {
+
+                expect(err).to.not.exist();
+                done();
+            });
+        });
     });
 
     it('fails to parse a sealed object when password not found', function (done) {
 
         Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, function (err, sealed) {
 
-            expect(err).to.not.exist;
+            expect(err).to.not.exist();
 
             Iron.unseal(sealed, { '2': password }, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Cannot find password: 1');
                 done();
             });
@@ -187,7 +188,7 @@ describe('Iron', function () {
 
             Iron.generateKey(null, null, function (err) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -197,7 +198,7 @@ describe('Iron', function () {
 
             Iron.generateKey('password', null, function (err) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Bad options');
                 done();
             });
@@ -207,7 +208,7 @@ describe('Iron', function () {
 
             Iron.generateKey('password', { algorithm: 'unknown' }, function (err) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Unknown algorithm: unknown');
                 done();
             });
@@ -222,7 +223,7 @@ describe('Iron', function () {
 
             Iron.generateKey('password', options, function (err) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Missing salt or saltBits options');
                 done();
             });
@@ -238,7 +239,7 @@ describe('Iron', function () {
 
             Iron.generateKey('password', options, function (err) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Failed generating random bits: Argument #1 must be number > 0');
                 done();
             });
@@ -249,11 +250,11 @@ describe('Iron', function () {
             var options = Hoek.clone(Iron.defaults.encryption);
             options.salt = 'abcdefg';
             options.algorithm = 'x';
-            Iron.algorithms['x'] = { keyBits: 256, ivBits: -1 };
+            Iron.algorithms.x = { keyBits: 256, ivBits: -1 };
 
             Iron.generateKey('password', options, function (err, result) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Invalid random bits count');
                 done();
             });
@@ -270,7 +271,7 @@ describe('Iron', function () {
             Iron.generateKey('password', Iron.defaults.encryption, function (err, result) {
 
                 Crypto.pbkdf2 = orig;
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('fake');
                 done();
             });
@@ -283,7 +284,7 @@ describe('Iron', function () {
 
             Iron.encrypt(null, null, 'data', function (err, encrypted, key) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -296,7 +297,7 @@ describe('Iron', function () {
 
             Iron.decrypt(null, null, 'data', function (err, encrypted, key) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -309,7 +310,7 @@ describe('Iron', function () {
 
             Iron.hmacWithPassword(null, null, 'data', function (err, result) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -324,7 +325,7 @@ describe('Iron', function () {
 
             Iron.hmacWithPassword(key, Iron.defaults.integrity, data, function (err, result) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(result.digest).to.equal(digest);
                 done();
             });
@@ -337,7 +338,7 @@ describe('Iron', function () {
 
             Iron.seal('data', null, {}, function (err, sealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -356,7 +357,7 @@ describe('Iron', function () {
 
             Iron.seal('data', 'password', options, function (err, sealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Unknown algorithm: undefined');
                 done();
             });
@@ -366,7 +367,7 @@ describe('Iron', function () {
 
             Iron.seal('data', { id: 'asd$', secret: 'asd' }, {}, function (err, sealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Invalid password id');
                 done();
             });
@@ -376,10 +377,11 @@ describe('Iron', function () {
     describe('#unseal', function () {
 
         it('unseals a ticket', function (done) {
+
             var ticket = 'Fe26.2**a6dc6339e5ea5dfe7a135631cf3b7dcf47ea38246369d45767c928ea81781694*D3DLEoi-Hn3c972TPpZXqw*mCBhmhHhRKk9KtBjwu3h-1lx1MHKkgloQPKRkQZxpnDwYnFkb3RqdVTQRcuhGf4M**ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5*HfWzyJlz_UP9odmXvUaVK1TtdDuOCaezr-TAg2GjBCU';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.not.exist;
+                expect(err).to.not.exist();
                 expect(unsealed).to.deep.equal(obj);
                 done();
             });
@@ -390,7 +392,7 @@ describe('Iron', function () {
             var ticket = 'x*Fe26.2**a6dc6339e5ea5dfe7a135631cf3b7dcf47ea38246369d45767c928ea81781694*D3DLEoi-Hn3c972TPpZXqw*mCBhmhHhRKk9KtBjwu3h-1lx1MHKkgloQPKRkQZxpnDwYnFkb3RqdVTQRcuhGf4M**ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5*HfWzyJlz_UP9odmXvUaVK1TtdDuOCaezr-TAg2GjBCU';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Incorrect number of sealed components');
                 done();
             });
@@ -401,7 +403,7 @@ describe('Iron', function () {
             var ticket = 'Fe26.2**a6dc6339e5ea5dfe7a135631cf3b7dcf47ea38246369d45767c928ea81781694*D3DLEoi-Hn3c972TPpZXqw*mCBhmhHhRKk9KtBjwu3h-1lx1MHKkgloQPKRkQZxpnDwYnFkb3RqdVTQRcuhGf4M**ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5*HfWzyJlz_UP9odmXvUaVK1TtdDuOCaezr-TAg2GjBCU';
             Iron.unseal(ticket, null, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -412,7 +414,7 @@ describe('Iron', function () {
             var ticket = 'Fe27.2**a6dc6339e5ea5dfe7a135631cf3b7dcf47ea38246369d45767c928ea81781694*D3DLEoi-Hn3c972TPpZXqw*mCBhmhHhRKk9KtBjwu3h-1lx1MHKkgloQPKRkQZxpnDwYnFkb3RqdVTQRcuhGf4M**ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5*HfWzyJlz_UP9odmXvUaVK1TtdDuOCaezr-TAg2GjBCU';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Wrong mac prefix');
                 done();
             });
@@ -423,7 +425,7 @@ describe('Iron', function () {
             var ticket = 'Fe26.2**b3ad22402ccc60fa4d527f7d1c9ff2e37e9b2e5723e9e2ffba39a489e9849609*QKCeXLs6Rp7f4LL56V7hBg*OvZEoAq_nGOpA1zae-fAtl7VNCNdhZhCqo-hWFCBeWuTTpSupJ7LxQqzSQBRAcgw**72018a21d3fac5c1608a0f9e461de0fcf17b2befe97855978c17a793faa01db1*Qj53DFE3GZd5yigt-mVl9lnp0VUoSjh5a5jgDmod1EZ';
             Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                expect(err).to.exist;
+                expect(err).to.exist();
                 expect(err.message).to.equal('Bad hmac value');
                 done();
             });
@@ -439,7 +441,7 @@ describe('Iron', function () {
                 var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                    expect(err).to.exist;
+                    expect(err).to.exist();
                     expect(err.message).to.equal('Invalid character');
                     done();
                 });
@@ -456,7 +458,7 @@ describe('Iron', function () {
                 var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                    expect(err).to.exist;
+                    expect(err).to.exist();
                     expect(err.message).to.equal('Invalid character');
                     done();
                 });
@@ -476,7 +478,7 @@ describe('Iron', function () {
                     var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                     Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                        expect(err).to.exist;
+                        expect(err).to.exist();
                         expect(err.message).to.equal('Failed parsing sealed object JSON: Unexpected token a');
                         done();
                     });
@@ -494,7 +496,7 @@ describe('Iron', function () {
                 var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                    expect(err).to.exist;
+                    expect(err).to.exist();
                     expect(err.message).to.equal('Expired seal');
                     done();
                 });
@@ -511,7 +513,7 @@ describe('Iron', function () {
                 var ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, function (err, unsealed) {
 
-                    expect(err).to.exist;
+                    expect(err).to.exist();
                     expect(err.message).to.equal('Invalid expiration');
                     done();
                 });

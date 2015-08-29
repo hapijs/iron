@@ -89,20 +89,20 @@ verification keys as well as the algorithms and salt sizes used. The _'seal()'_ 
 object with the following **required** keys:
 
 - `encryption` - defines the options used by the encryption process.
-- `integrity` - defines the options used by the HMAC itegrity verification process.
+- `integrity` - defines the options used by the HMAC integrity verification process.
 
 Each of these option objects includes the following **required** keys:
 
 - `saltBits` - the size of the salt (random buffer used to ensure that two identical objects will generate a different encrypted result.
 - `algorithm` - the algorithm used ('aes-256-cbc' for encryption and 'sha256' for integrity are the only two supported at this time).
 - `iterations` - the number of iterations used to derive a key from the password. Set to `1` by default. The number of ideal iterations
-  to use is dependent on your application's performance requirements. More iterations means it takes longer to generate the key.3
+  to use is dependent on your application's performance requirements. More iterations means it takes longer to generate the key.
 
 The _'seal()'_ and _'unseal()'_ methods also take the following **optional** options keys:
 
 - `ttl` - sealed object lifetime in milliseconds where 0 means forever. Defaults to 0.
 - `timestampSkewSec` - number of seconds of permitted clock skew for incoming expirations. Defaults to 60 seconds.
-- `localtimeOffsetMsec` - local clock time offset express in a number of milliseconds (positive or negative). Defaults to 0.
+- `localtimeOffsetMsec` - local clock time offset, expressed in number of milliseconds (positive or negative). Defaults to 0.
 
 **iron** includes a default options object which can be passed to the methods as shown above in the example. The default
 settings are:
@@ -172,4 +172,4 @@ implementation. While reasonable defaults are provided, you still need to explic
 
 Special thanks to Adam Barth for his infinite patience, and always insightful feedback and advice.
 
-The **iron** logo was based on origin artwork created by [Chris Carrasco](http://chriscarrasco.com).
+The **iron** logo was based on original artwork created by [Chris Carrasco](http://chriscarrasco.com).

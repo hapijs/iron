@@ -158,8 +158,7 @@ something? Open an issue!
 
 ### Is it done?
 
-Pretty much. The API is locked and any changes to the 1.x branch will be backward compatible. Feel free to open issues with
-questions and suggestions.
+Yep.
 
 
 ### How come the defaults must be manually passed and not automatically applied?

@@ -6,10 +6,10 @@ it lets you encrypt an object, send it around (in cookies, authentication creden
 decrypt it. The algorithm ensures that the message was not tampered with, and also provides a simple mechanism for
 password rotation.
 
-Current version: **3.x**
+Current version: **4.x**
 
-Note: 3.x and 2.x are the same exact protocol as 1.x (the version increment reflected a change in
-the internal error format used by the module and by the node API).
+Note: the wire protocol has not changed since 1.x (the version increments reflected a change in
+the internal error format used by the module and by the node API as well as other node API changes).
 
 [![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)
 

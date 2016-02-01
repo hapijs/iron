@@ -34,7 +34,7 @@ describe('Iron', () => {
         }
     };
 
-    const password = 'some_not_random_password';
+    const password = 'some_not_random_password_that_is_also_long_enough';
 
     it('turns object into a ticket than parses the ticket successfully', (done) => {
 
@@ -196,9 +196,19 @@ describe('Iron', () => {
             });
         });
 
+        it('returns an error when password is too short', (done) => {
+
+            Iron.generateKey('password', Iron.defaults.encryption, (err) => {
+
+                expect(err).to.exist();
+                expect(err.message).to.equal('Password string too short (min 32 characters required)');
+                done();
+            });
+        });
+
         it('returns an error when options are missing', (done) => {
 
-            Iron.generateKey('password', null, (err) => {
+            Iron.generateKey(password, null, (err) => {
 
                 expect(err).to.exist();
                 expect(err.message).to.equal('Bad options');
@@ -208,7 +218,7 @@ describe('Iron', () => {
 
         it('returns an error when an unknown algorithm is specified', (done) => {
 
-            Iron.generateKey('password', { algorithm: 'unknown' }, (err) => {
+            Iron.generateKey(password, { algorithm: 'unknown' }, (err) => {
 
                 expect(err).to.exist();
                 expect(err.message).to.equal('Unknown algorithm: unknown');
@@ -223,7 +233,7 @@ describe('Iron', () => {
                 iterations: 2
             };
 
-            Iron.generateKey('password', options, (err) => {
+            Iron.generateKey(password, options, (err) => {
 
                 expect(err).to.exist();
                 expect(err.message).to.equal('Missing salt or saltBits options');
@@ -239,7 +249,7 @@ describe('Iron', () => {
                 iterations: 2
             };
 
-            Iron.generateKey('password', options, (err) => {
+            Iron.generateKey(password, options, (err) => {
 
                 expect(err).to.exist();
                 expect(err.message).to.match(/Failed generating random bits/);
@@ -254,7 +264,7 @@ describe('Iron', () => {
             options.algorithm = 'x';
             Iron.algorithms.x = { keyBits: 256, ivBits: -1 };
 
-            Iron.generateKey('password', options, (err, result) => {
+            Iron.generateKey(password, options, (err, result) => {
 
                 expect(err).to.exist();
                 expect(err.message).to.equal('Invalid random bits count');
@@ -270,7 +280,7 @@ describe('Iron', () => {
                 return callback(new Error('fake'));
             };
 
-            Iron.generateKey('password', Iron.defaults.encryption, (err, result) => {
+            Iron.generateKey(password, Iron.defaults.encryption, (err, result) => {
 
                 Crypto.pbkdf2 = orig;
                 expect(err).to.exist();
@@ -357,7 +367,7 @@ describe('Iron', () => {
                 integrity: {}
             };
 
-            Iron.seal('data', 'password', options, (err, sealed) => {
+            Iron.seal('data', password, options, (err, sealed) => {
 
                 expect(err).to.exist();
                 expect(err.message).to.equal('Unknown algorithm: undefined');
@@ -380,7 +390,7 @@ describe('Iron', () => {
 
         it('unseals a ticket', (done) => {
 
-            const ticket = 'Fe26.2**a6dc6339e5ea5dfe7a135631cf3b7dcf47ea38246369d45767c928ea81781694*D3DLEoi-Hn3c972TPpZXqw*mCBhmhHhRKk9KtBjwu3h-1lx1MHKkgloQPKRkQZxpnDwYnFkb3RqdVTQRcuhGf4M**ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5*HfWzyJlz_UP9odmXvUaVK1TtdDuOCaezr-TAg2GjBCU';
+            const ticket = 'Fe26.2**0cdd607945dd1dffb7da0b0bf5f1a7daa6218cbae14cac51dcbd91fb077aeb5b*aOZLCKLhCt0D5IU1qLTtYw*g0ilNDlQ3TsdFUqJCqAm9iL7Wa60H7eYcHL_5oP136TOJREkS3BzheDC1dlxz5oJ**05b8943049af490e913bbc3a2485bee2aaf7b823f4c41d0ff0b7c168371a3772*R8yscVdTBRMdsoVbdDiFmUL8zb-c3PQLGJn4Y8C-AqI';
             Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.not.exist();
@@ -440,6 +450,8 @@ describe('Iron', () => {
             options.salt = 'ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5';
             Iron.hmacWithPassword(password, options, macBaseString, (err, mac) => {
 
+                expect(err).to.not.exist();
+
                 const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
@@ -457,6 +469,8 @@ describe('Iron', () => {
             options.salt = 'ff2bf988aa0edf2b34c02d220a45c4a3c572dac6b995771ed20de58da919bfa5';
             Iron.hmacWithPassword(password, options, macBaseString, (err, mac) => {
 
+                expect(err).to.not.exist();
+
                 const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
@@ -472,10 +486,14 @@ describe('Iron', () => {
             const badJson = '{asdasd';
             Iron.encrypt(password, Iron.defaults.encryption, badJson, (err, encrypted, key) => {
 
+                expect(err).to.not.exist();
+
                 const encryptedB64 = Hoek.base64urlEncode(encrypted);
                 const iv = Hoek.base64urlEncode(key.iv);
                 const macBaseString = Iron.macPrefix + '**' + key.salt + '*' + iv + '*' + encryptedB64 + '*';
                 Iron.hmacWithPassword(password, Iron.defaults.integrity, macBaseString, (err, mac) => {
+
+                    expect(err).to.not.exist();
 
                     const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                     Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
@@ -495,6 +513,8 @@ describe('Iron', () => {
             options.salt = 'e4fe33b6dc4c7ef5ad7907f015deb7b03723b03a54764aceeb2ab1235cc8dce3';
             Iron.hmacWithPassword(password, options, macBaseString, (err, mac) => {
 
+                expect(err).to.not.exist();
+
                 const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
@@ -511,6 +531,8 @@ describe('Iron', () => {
             const options = Hoek.clone(Iron.defaults.integrity);
             options.salt = 'e4fe33b6dc4c7ef5ad7907f015deb7b03723b03a54764aceeb2ab1235cc8dce3';
             Iron.hmacWithPassword(password, options, macBaseString, (err, mac) => {
+
+                expect(err).to.not.exist();
 
                 const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {

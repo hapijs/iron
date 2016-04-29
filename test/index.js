@@ -275,7 +275,7 @@ describe('Iron', () => {
         it('returns an error when Crypto.pbkdf2 fails', (done) => {
 
             const orig = Crypto.pbkdf2;
-            Crypto.pbkdf2 = function (v1, v2, v3, v4, callback) {
+            Crypto.pbkdf2 = function (v1, v2, v3, v4, v5, callback) {
 
                 return callback(new Error('fake'));
             };

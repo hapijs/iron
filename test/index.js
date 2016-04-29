@@ -499,7 +499,7 @@ describe('Iron', () => {
                     Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                         expect(err).to.exist();
-                        expect(err.message).to.equal('Failed parsing sealed object JSON: Unexpected token a');
+                        expect(err.message).to.match(/Failed parsing sealed object JSON: Unexpected token a/);
                         done();
                     });
                 });

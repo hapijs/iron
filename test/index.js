@@ -45,7 +45,7 @@ describe('Iron', () => {
             Iron.unseal(sealed, { 'default': password }, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.not.exist();
-                expect(unsealed).to.deep.equal(obj);
+                expect(unsealed).to.equal(obj);
                 done();
             });
         });
@@ -62,7 +62,7 @@ describe('Iron', () => {
             Iron.unseal(sealed, { 'default': password }, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.not.exist();
-                expect(unsealed).to.deep.equal(obj);
+                expect(unsealed).to.equal(obj);
                 done();
             });
         });
@@ -82,7 +82,7 @@ describe('Iron', () => {
             Iron.unseal(sealed, { 'default': password }, options2, (err, unsealed) => {
 
                 expect(err).to.not.exist();
-                expect(unsealed).to.deep.equal(obj);
+                expect(unsealed).to.equal(obj);
                 done();
             });
         });
@@ -98,7 +98,7 @@ describe('Iron', () => {
             Iron.unseal(sealed, { 'default': key }, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.not.exist();
-                expect(unsealed).to.deep.equal(obj);
+                expect(unsealed).to.equal(obj);
                 done();
             });
         });
@@ -124,7 +124,7 @@ describe('Iron', () => {
             Iron.unseal(sealed, { '1': password }, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.not.exist();
-                expect(unsealed).to.deep.equal(obj);
+                expect(unsealed).to.equal(obj);
                 done();
             });
         });
@@ -394,7 +394,7 @@ describe('Iron', () => {
             Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.not.exist();
-                expect(unsealed).to.deep.equal(obj);
+                expect(unsealed).to.equal(obj);
                 done();
             });
         });

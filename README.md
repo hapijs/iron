@@ -64,7 +64,7 @@ var obj = {
     }
 };
 
-var password = 'some_not_random_password';
+var password = 'some_not_random_password_that_is_at_least_32_characters';
 
 Iron.seal(obj, password, Iron.defaults, function (err, sealed) {
 

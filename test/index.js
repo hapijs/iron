@@ -115,6 +115,19 @@ describe('Iron', () => {
         });
     });
 
+    it('fails to turn object into a ticket (failed to stringify object)', (done) => {
+
+        const cyclic = [];
+        cyclic[0] = cyclic;
+        const key = Cryptiles.randomBits(128);
+        Iron.seal(cyclic, key, Iron.defaults, (err, sealed) => {
+
+            expect(err).to.exist();
+            expect(err.message).to.contain('Failed to stringify object');
+            done();
+        });
+    });
+
     it('turns object into a ticket than parses the ticket successfully (password object)', (done) => {
 
         Iron.seal(obj, { id: '1', secret: password }, Iron.defaults, (err, sealed) => {

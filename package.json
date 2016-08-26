@@ -1,7 +1,7 @@
 {
   "name": "iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "author": "Eran Hammer <eran@hammer.io> (http://hueniverse.com)",
   "repository": "git://github.com/hueniverse/iron",
   "main": "lib/index.js",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "code": "3.x.x",
-    "lab": "10.x.x"
+    "lab": "11.x.x"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L",

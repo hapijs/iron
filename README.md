@@ -152,7 +152,7 @@ access.
 ### Where is the protocol specification?
 
 If you are looking for some prose explaining how all this works, there isn't any. **iron** is being developed as an open source
-project instead of a standard. In other words, the [code](/hueniverse/iron/tree/master/lib) is the specification. Not sure about
+project instead of a standard. In other words, the [code](/lib) is the specification. Not sure about
 something? Open an issue!
 
 

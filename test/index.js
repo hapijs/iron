@@ -110,6 +110,7 @@ describe('Iron', () => {
         Iron.seal(obj, key, Iron.defaults, (err, sealed) => {
 
             expect(err).to.exist();
+            expect(err.isBoom).to.be.true();
             expect(err.message).to.equal('Key buffer (password) too small');
             done();
         });
@@ -123,6 +124,7 @@ describe('Iron', () => {
         Iron.seal(cyclic, key, Iron.defaults, (err, sealed) => {
 
             expect(err).to.exist();
+            expect(err.isBoom).to.be.true();
             expect(err.message).to.contain('Failed to stringify object');
             done();
         });
@@ -191,6 +193,7 @@ describe('Iron', () => {
             Iron.unseal(sealed, { '2': password }, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Cannot find password: 1');
                 done();
             });
@@ -204,6 +207,7 @@ describe('Iron', () => {
             Iron.generateKey(null, null, (err) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -214,6 +218,7 @@ describe('Iron', () => {
             Iron.generateKey('password', Iron.defaults.encryption, (err) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Password string too short (min 32 characters required)');
                 done();
             });
@@ -224,6 +229,7 @@ describe('Iron', () => {
             Iron.generateKey(password, null, (err) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Bad options');
                 done();
             });
@@ -234,6 +240,7 @@ describe('Iron', () => {
             Iron.generateKey(password, { algorithm: 'unknown' }, (err) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Unknown algorithm: unknown');
                 done();
             });
@@ -249,6 +256,7 @@ describe('Iron', () => {
             Iron.generateKey(password, options, (err) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Missing salt or saltBits options');
                 done();
             });
@@ -265,6 +273,7 @@ describe('Iron', () => {
             Iron.generateKey(password, options, (err) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.match(/Failed generating random bits/);
                 done();
             });
@@ -280,6 +289,7 @@ describe('Iron', () => {
             Iron.generateKey(password, options, (err, result) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Invalid random bits count');
                 done();
             });
@@ -297,6 +307,7 @@ describe('Iron', () => {
 
                 Crypto.pbkdf2 = orig;
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('fake');
                 done();
             });
@@ -310,6 +321,7 @@ describe('Iron', () => {
             Iron.encrypt(null, null, 'data', (err, encrypted, key) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -323,6 +335,7 @@ describe('Iron', () => {
             Iron.decrypt(null, null, 'data', (err, encrypted, key) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -336,6 +349,7 @@ describe('Iron', () => {
             Iron.hmacWithPassword(null, null, 'data', (err, result) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -364,6 +378,7 @@ describe('Iron', () => {
             Iron.seal('data', null, {}, (err, sealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -383,6 +398,7 @@ describe('Iron', () => {
             Iron.seal('data', password, options, (err, sealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Unknown algorithm: undefined');
                 done();
             });
@@ -393,6 +409,7 @@ describe('Iron', () => {
             Iron.seal('data', { id: 'asd$', secret: 'asd' }, {}, (err, sealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Invalid password id');
                 done();
             });
@@ -418,6 +435,7 @@ describe('Iron', () => {
             Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Incorrect number of sealed components');
                 done();
             });
@@ -429,6 +447,7 @@ describe('Iron', () => {
             Iron.unseal(ticket, null, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Empty password');
                 done();
             });
@@ -440,6 +459,7 @@ describe('Iron', () => {
             Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Wrong mac prefix');
                 done();
             });
@@ -451,6 +471,7 @@ describe('Iron', () => {
             Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                 expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
                 expect(err.message).to.equal('Bad hmac value');
                 done();
             });
@@ -469,6 +490,7 @@ describe('Iron', () => {
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                     expect(err).to.exist();
+                    expect(err.isBoom).to.be.true();
                     expect(err.message).to.equal('Invalid character');
                     done();
                 });
@@ -488,6 +510,7 @@ describe('Iron', () => {
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                     expect(err).to.exist();
+                    expect(err.isBoom).to.be.true();
                     expect(err.message).to.equal('Invalid character');
                     done();
                 });
@@ -512,6 +535,7 @@ describe('Iron', () => {
                     Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                         expect(err).to.exist();
+                        expect(err.isBoom).to.be.true();
                         expect(err.message).to.match(/Failed parsing sealed object JSON: Unexpected token a/);
                         done();
                     });
@@ -532,6 +556,7 @@ describe('Iron', () => {
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                     expect(err).to.exist();
+                    expect(err.isBoom).to.be.true();
                     expect(err.message).to.equal('Expired seal');
                     done();
                 });
@@ -551,6 +576,7 @@ describe('Iron', () => {
                 Iron.unseal(ticket, password, Iron.defaults, (err, unsealed) => {
 
                     expect(err).to.exist();
+                    expect(err.isBoom).to.be.true();
                     expect(err.message).to.equal('Invalid expiration');
                     done();
                 });

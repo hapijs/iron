@@ -1,4 +1,4 @@
-![iron](https://raw.github.com/hueniverse/iron/master/images/iron.png)
+# iron
 
 <img align="right" src="https://raw.github.com/hueniverse/iron/master/images/logo.png" /> **iron** is a cryptographic
 utility for sealing a JSON object using symmetric key encryption with message integrity verification. Or in other words,

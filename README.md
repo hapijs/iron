@@ -43,7 +43,7 @@ The seal process follows these general steps:
 - generate encryption salt `saltE`
 - derive an encryption key `keyE` using `saltE` and a password
 - generate an integrity salt `saltI`
-- derive an integrity (HMAC) key `keyI` using `saltI`
+- derive an integrity (HMAC) key `keyI` using `saltI` and the password
 - generate a random [initialization vector](http://en.wikipedia.org/wiki/Initialization_vector) `iv`
 - encrypt the serialized object string using `keyE` and `iv`
 - mac the encrypted object along with `saltE` and `iv`

@@ -16,16 +16,13 @@ the internal error format used by the module and by the node API as well as othe
 
 # Table of Content
 
-- [**Introduction**](#introduction)
-<p></p>
+- [**Introduction**](#introduction) <p></p>
+- [Installing](#installing)
 - [Usage](#usage)
-  - [Options](#options)
-<p></p>
+  - [Options](#options) <p></p>
 - [**Security Considerations**](#security-considerations)
-  - [Plaintext Storage of Credentials](#plaintext-storage-of-credentials)
-<p></p>
-- [**Frequently Asked Questions**](#frequently-asked-questions)
-<p></p>
+  - [Plaintext Storage of Credentials](#plaintext-storage-of-credentials) <p></p>
+- [**Frequently Asked Questions**](#frequently-asked-questions) <p></p>
 - [**Acknowledgements**](#acknowledgements)
 
 # Introduction
@@ -49,6 +46,12 @@ The seal process follows these general steps:
 - mac the encrypted object along with `saltE` and `iv`
 - concatenate `saltE`, `saltI`, `iv`, and the encrypted object into a URI-friendly string
 
+# Installing
+
+```
+$ npm install iron
+```
+Use the `--save` flag to add the package to your dependencies automatically.
 
 # Usage
 

@@ -1,0 +1,4 @@
+#Add Expiration
+*Author: Myungcheol Doo <myungcheol@gmail.com>
+
+This document explains a proposal for supporting to include an optional expiration time somewhere in the iron sealed object and validate it when unsealing.

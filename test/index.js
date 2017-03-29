@@ -582,5 +582,16 @@ describe('Iron', () => {
                 });
             });
         });
+
+        it('returns an error when other type than string was passed as sealed patameter', (done) => {
+
+            Iron.unseal({ a: 1 }, password, Iron.defaults, (err, unsealed) => {
+
+                expect(err).to.exist();
+                expect(err.isBoom).to.be.true();
+                expect(err.message).to.equal('Incorrect number of sealed components');
+                done();
+            });
+        });
     });
 });

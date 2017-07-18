@@ -17,15 +17,15 @@ the internal error format used by the module and by the node API as well as othe
 # Table of Content
 
 - [**Introduction**](#introduction)
-<p></p>
+<br /><br />
 - [Usage](#usage)
   - [Options](#options)
-<p></p>
+<br /><br />
 - [**Security Considerations**](#security-considerations)
   - [Plaintext Storage of Credentials](#plaintext-storage-of-credentials)
-<p></p>
+<br /><br />
 - [**Frequently Asked Questions**](#frequently-asked-questions)
-<p></p>
+<br /><br />
 - [**Acknowledgements**](#acknowledgements)
 
 # Introduction

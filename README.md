@@ -6,7 +6,7 @@ it lets you encrypt an object, send it around (in cookies, authentication creden
 decrypt it. The algorithm ensures that the message was not tampered with, and also provides a simple mechanism for
 password rotation.
 
-Current version: **4.x**
+Current version: **5.x**
 
 Note: the wire protocol has not changed since 1.x (the version increments reflected a change in
 the internal error format used by the module and by the node API as well as other node API changes).
@@ -55,7 +55,7 @@ The seal process follows these general steps:
 To seal an object:
 
 ```javascript
-var obj = {
+const obj = {
     a: 1,
     b: 2,
     c: [3, 4, 5],
@@ -64,22 +64,25 @@ var obj = {
     }
 };
 
-var password = 'some_not_random_password_that_is_at_least_32_characters';
+const password = 'some_not_random_password_that_is_at_least_32_characters';
 
-Iron.seal(obj, password, Iron.defaults, function (err, sealed) {
-
+try {
+    const sealed = await Iron.seal(obj, password, Iron.defaults);
     console.log(sealed);
-});
+} catch (err) {
+    console.log(err.message);
+}
 ```
 
 The result `sealed` object is a string which can be sent via cookies, URI query parameter, or an HTTP header attribute.
 To unseal the string:
 
 ```javascript
-Iron.unseal(sealed, password, Iron.defaults, function (err, unsealed) {
-
-    // unsealed has the same content as obj
-});
+try {
+    const unsealed = Iron.unseal(sealed, password, Iron.defaults);
+} catch (err) {
+    console.log(err.message);
+}
 ```
 
 ### Options

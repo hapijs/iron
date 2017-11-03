@@ -11,16 +11,16 @@
     "data integrity"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.9.0"
   },
   "dependencies": {
     "hoek": "5.x.x",
-    "boom": "6.x.x",
+    "boom": "7.x.x",
     "cryptiles": "4.x.x"
   },
   "devDependencies": {
     "code": "5.x.x",
-    "lab": "14.x.x"
+    "lab": "15.x.x"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L",

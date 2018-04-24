@@ -153,14 +153,14 @@ describe('Iron', () => {
             expect(err.isBoom).to.be.true();
         });
 
-        it('returns an error when no salt or salt bits are provided', async () => {
+        it('returns an error when no salt and no salt bits are provided', async () => {
 
             const options = {
                 algorithm: 'sha256',
                 iterations: 2
             };
 
-            const err = await expect(Iron.generateKey(password, options)).to.reject('Missing salt or saltBits options');
+            const err = await expect(Iron.generateKey(password, options)).to.reject('Missing salt and saltBits options');
             expect(err.isBoom).to.be.true();
         });
 

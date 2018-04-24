@@ -20,11 +20,13 @@
   },
   "devDependencies": {
     "code": "5.x.x",
+    "hapitoc": "1.x.x",
     "lab": "15.x.x"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L",
-    "test-cov-html": "lab -a code -r html -o coverage.html"
+    "test-cov-html": "lab -a code -r html -o coverage.html",
+    "toc": "hapitoc"
   },
   "license": "BSD-3-Clause"
 }

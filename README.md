@@ -88,7 +88,7 @@ try {
 
 ## API
 
-See the detailed [API Reference](/blob/v5.0.4/API.md).
+See the detailed [API Reference](https://github.com/hueniverse/iron/blob/master/API.md).
 
 ## Security Considerations
 

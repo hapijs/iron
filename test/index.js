@@ -4,6 +4,7 @@
 
 const Crypto = require('crypto');
 
+const B64 = require('b64');
 const Code = require('code');
 const Cryptiles = require('cryptiles');
 const Hoek = require('hoek');
@@ -329,8 +330,8 @@ describe('Iron', () => {
 
             const badJson = '{asdasd';
             const { encrypted, key } = await Iron.encrypt(password, Iron.defaults.encryption, badJson);
-            const encryptedB64 = Hoek.base64urlEncode(encrypted);
-            const iv = Hoek.base64urlEncode(key.iv);
+            const encryptedB64 = B64.base64urlEncode(encrypted);
+            const iv = B64.base64urlEncode(key.iv);
             const macBaseString = Iron.macPrefix + '**' + key.salt + '*' + iv + '*' + encryptedB64 + '*';
             const mac = await Iron.hmacWithPassword(password, Iron.defaults.integrity, macBaseString);
             const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;

@@ -1,7 +1,7 @@
 {
   "name": "iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "repository": "git://github.com/hueniverse/iron",
   "main": "lib/index.js",
   "keywords": [

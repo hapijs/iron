@@ -2,7 +2,6 @@
   "name": "iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
   "version": "5.0.5",
-  "author": "Eran Hammer <eran@hammer.io> (http://hueniverse.com)",
   "repository": "git://github.com/hueniverse/iron",
   "main": "lib/index.js",
   "keywords": [
@@ -10,9 +9,6 @@
     "encryption",
     "data integrity"
   ],
-  "engines": {
-    "node": ">=8.12.0"
-  },
   "dependencies": {
     "hoek": "6.x.x",
     "b64": "4.x.x",

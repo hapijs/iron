@@ -1,6 +1,6 @@
 # iron
 
-<img align="right" src="https://raw.github.com/hueniverse/iron/master/images/logo.png" /> **iron**
+<img align="right" src="https://raw.github.com/hapijs/iron/master/images/logo.png" /> **iron**
 is a cryptographic utility for sealing a JSON object using symmetric key encryption with message
 integrity verification. Or in other words, it lets you encrypt an object, send it around (in
 cookies, authentication credentials, etc.), then receive it back and decrypt it. The algorithm
@@ -12,7 +12,7 @@ Current version: **5.x**
 Note: the wire protocol has not changed since 1.x (the version increments reflected a change in
 the internal error format used by the module and by the node API as well as other node API changes).
 
-[![Build Status](https://secure.travis-ci.org/hueniverse/iron.png)](http://travis-ci.org/hueniverse/iron)
+[![Build Status](https://secure.travis-ci.org/hapijs/iron.png)](http://travis-ci.org/hapijs/iron)
 
 
 ## Table of Content

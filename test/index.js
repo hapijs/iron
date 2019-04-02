@@ -1,23 +1,17 @@
 'use strict';
 
-// Load modules
-
 const Crypto = require('crypto');
 
-const B64 = require('b64');
-const Code = require('code');
-const Cryptiles = require('cryptiles');
-const Hoek = require('hoek');
-const Iron = require('../lib');
-const Lab = require('lab');
+const B64 = require('@hapi/b64');
+const Code = require('@hapi/code');
+const Cryptiles = require('@hapi/cryptiles');
+const Hoek = require('@hapi/hoek');
+const Iron = require('..');
+const Lab = require('@hapi/lab');
 
-
-// Declare internals
 
 const internals = {};
 
-
-// Test shortcuts
 
 const { describe, it } = exports.lab = Lab.script();
 const expect = Code.expect;
@@ -66,6 +60,14 @@ describe('Iron', () => {
     });
 
     it('turns object into a ticket than parses the ticket successfully (password buffer)', async () => {
+
+        const key = Cryptiles.randomBits(256);
+        const sealed = await Iron.seal(obj, key, Iron.defaults);
+        const unsealed = await Iron.unseal(sealed, key, Iron.defaults);
+        expect(unsealed).to.equal(obj);
+    });
+
+    it('turns object into a ticket than parses the ticket successfully (password buffer in object)', async () => {
 
         const key = Cryptiles.randomBits(256);
         const sealed = await Iron.seal(obj, key, Iron.defaults);
@@ -146,6 +148,8 @@ describe('Iron', () => {
 
             const err = await expect(Iron.generateKey(password, null)).to.reject('Bad options');
             expect(err.isBoom).to.be.true();
+
+            await expect(Iron.generateKey(password, 'abc')).to.reject('Bad options');
         });
 
         it('returns an error when an unknown algorithm is specified', async () => {

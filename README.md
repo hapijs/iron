@@ -2,14 +2,11 @@
 
 Lead Maintainer: [Eran Hammer](https://github.com/hueniverse)
 
-<img align="right" src="https://raw.github.com/hapijs/iron/master/images/logo.png" /> **iron**
-is a cryptographic utility for sealing a JSON object using symmetric key encryption with message
+**iron** is a cryptographic utility for sealing a JSON object using symmetric key encryption with message
 integrity verification. Or in other words, it lets you encrypt an object, send it around (in
 cookies, authentication credentials, etc.), then receive it back and decrypt it. The algorithm
 ensures that the message was not tampered with, and also provides a simple mechanism for password
 rotation.
-
-Current version: **5.x**
 
 Note: the wire protocol has not changed since 1.x (the version increments reflected a change in
 the internal error format used by the module and by the node API as well as other node API changes).
@@ -131,5 +128,3 @@ to explicitly state you want to use them.
 ## Acknowledgements
 
 Special thanks to Adam Barth for his infinite patience, and always insightful feedback and advice.
-
-The **iron** logo was based on original artwork created by [Chris Carrasco](http://chriscarrasco.com).

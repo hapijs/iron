@@ -87,7 +87,7 @@ describe('Iron', () => {
         const cyclic = [];
         cyclic[0] = cyclic;
         const key = Cryptiles.randomBits(128);
-        const err = await expect(Iron.seal(cyclic, key, Iron.defaults)).to.reject('Failed to stringify object: Converting circular structure to JSON');
+        const err = await expect(Iron.seal(cyclic, key, Iron.defaults)).to.reject(/Failed to stringify object: Converting circular structure to JSON/);
         expect(err.isBoom).to.be.true();
     });
 

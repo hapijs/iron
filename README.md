@@ -1,6 +1,6 @@
 <a href="http://hapijs.com"><img src="https://raw.githubusercontent.com/hapijs/assets/master/images/family.png" width="180px" align="right" /></a>
 
-# iron
+# @hapi/iron
 
 **iron** is a cryptographic utility for sealing a JSON object using symmetric key encryption with message
 integrity verification. Or in other words, it lets you encrypt an object, send it around (in

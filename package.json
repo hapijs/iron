@@ -10,6 +10,9 @@
     "encryption",
     "data integrity"
   ],
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "@hapi/hoek": "6.x.x",
     "@hapi/b64": "4.x.x",

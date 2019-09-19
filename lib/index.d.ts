@@ -97,4 +97,3 @@ export function seal(object: any, password: string | Buffer | {id: string, secre
 */
 
 export function unseal(sealed: string, password: string | Buffer | {id: string | Buffer | {encryption: string, integrity: string}}, options: defaults): object
-

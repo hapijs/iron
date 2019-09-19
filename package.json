@@ -4,10 +4,14 @@
   "version": "5.1.1",
   "repository": "git://github.com/hueniverse/iron",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "authentication",
     "encryption",
     "data integrity"
+  ],
+  "files": [
+    "lib"
   ],
   "dependencies": {
     "@hapi/hoek": "8.x.x",
@@ -20,8 +24,8 @@
     "@hapi/lab": "20.x.x"
   },
   "scripts": {
-    "test": "lab -a @hapi/code -t 100 -L",
-    "test-cov-html": "lab -a @hapi/code -r html -o coverage.html"
+    "test": "lab -a @hapi/code -t 100 -L -Y",
+    "test-cov-html": "lab -a @hapi/code -t 100 -L -r html -o coverage.html"
   },
   "license": "BSD-3-Clause"
 }

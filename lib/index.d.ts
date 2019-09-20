@@ -8,7 +8,7 @@ export interface Options {
 }
 
 
-export interface DefaultObjects {
+export interface SealOptionsSub {
     saltBits: number;
     algorithm: string;
     iterations: number;
@@ -16,9 +16,9 @@ export interface DefaultObjects {
 }
 
 
-export interface Defaults {
-    encryption: DefaultObjects;
-    integrity: DefaultObjects;
+export interface SealOptions {
+    encryption: SealOptionsSub;
+    integrity: SealOptionsSub;
     ttl: number;
     timestampSkewSec: number;
     localtimeOffsetMsec: number;
@@ -115,7 +115,7 @@ Serializes, encrypts, and signs objects into an iron protocol string
 @returns Iron sealed string
 */
 
-export function seal(object: any, password: Password | password.Secret | password.Specific, options: Defaults): string
+export function seal(object: any, password: Password | password.Secret | password.Specific, options: SealOptions): string
 
 
 /**
@@ -128,4 +128,4 @@ Verifies, decrypts, and reconstruct an iron protocol string into an object
 @returns the verified decrypted object
 */
 
-export function unseal(sealed: string, password: Password | password.Hash, options?: Defaults): object
+export function unseal(sealed: string, password: Password | password.Hash, options?: SealOptions): object

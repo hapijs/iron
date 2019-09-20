@@ -17,6 +17,7 @@
     "@hapi/hoek": "8.x.x",
     "@hapi/b64": "4.x.x",
     "@hapi/boom": "7.x.x",
+    "@hapi/bourne": "1.x.x",
     "@hapi/cryptiles": "4.x.x"
   },
   "devDependencies": {

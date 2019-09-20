@@ -3,7 +3,9 @@ import * as Lab from '@hapi/lab';
 
 const Cryptiles = require('@hapi/cryptiles');
 
+
 const { expect } = Lab.types;
+
 
 const password = 'some_not_random_password_that_is_also_long_enough';
 const buffer = Cryptiles.randomBits(256);

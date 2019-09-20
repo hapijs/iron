@@ -8,35 +8,37 @@ const { expect } = Lab.types;
 
 
 const password = 'some_not_random_password_that_is_also_long_enough';
+
 const buffer = Cryptiles.randomBits(256);
+
 const defaults = {
-  encryption: {
-      saltBits: 256,
-      algorithm: 'aes-256-cbc',
-      iterations: 1,
-      minPasswordlength: 32
-  },
+    encryption: {
+        saltBits: 256,
+        algorithm: 'aes-256-cbc',
+        iterations: 1,
+        minPasswordlength: 32
+    },
 
-  integrity: {
-      saltBits: 256,
-      algorithm: 'sha256',
-      iterations: 1,
-      minPasswordlength: 32
-  },
+    integrity: {
+        saltBits: 256,
+        algorithm: 'sha256',
+        iterations: 1,
+        minPasswordlength: 32
+    },
 
-  ttl: 0,                                         
-  timestampSkewSec: 60,                             
-  localtimeOffsetMsec: 0                             
-};
+    ttl: 0,
+    timestampSkewSec: 60,
+    localtimeOffsetMsec: 0
+} as Iron.SealOptions;
 
 const options = {
-  saltBits: 256,                                  
-  salt: '4d8nr9q384nr9q384nr93q8nruq9348run',
-  algorithm: 'aes-128-ctr',
-  iterations: 10000,
-  iv: 'sdfsdfsdfsdfscdrgercgesrcgsercg',         
-  minPasswordlength: 32
-}
+    saltBits: 256,
+    salt: '4d8nr9q384nr9q384nr93q8nruq9348run',
+    algorithm: 'aes-128-ctr',
+    iterations: 10000,
+    iv: 'sdfsdfsdfsdfscdrgercgesrcgsercg',
+    minPasswordlength: 32
+} as Iron.GenerateKeyOptions;
 
 
 // generateKey()
@@ -44,10 +46,10 @@ const options = {
 Iron.generateKey(password, options)
 Iron.generateKey(password, defaults.encryption)
 
-expect.type<{key: string, salt: string, iv: string}>(Iron.generateKey(password, options))
+expect.type<Iron.Key>(await Iron.generateKey(password, options))
 
 expect.error(Iron.generateKey(256, options))
-expect.error(Iron.generateKey({ foo: "bar"}, options))
+expect.error(Iron.generateKey({ foo: "bar" }, options))
 expect.error(Iron.generateKey('password', 'password'))
 expect.error(Iron.generateKey('password'))
 
@@ -57,8 +59,8 @@ expect.error(Iron.generateKey('password'))
 Iron.encrypt(password, options, "hello")
 Iron.encrypt(buffer, options, "hello")
 
-expect.type<{ encrypted: Buffer, key: { key: string, salt: string, iv: string }}>(Iron.encrypt(password, options, "hello"))
-expect.type<{ encrypted: Buffer, key: { key: string, salt: string, iv: string }}>(Iron.encrypt(buffer, options, "hello"))
+expect.type<{ encrypted: Buffer, key: Iron.Key }>(await Iron.encrypt(password, options, "hello"))
+expect.type<{ encrypted: Buffer, key: Iron.Key }>(await Iron.encrypt(buffer, options, "hello"))
 
 expect.error(Iron.encrypt(256, options, "hello"))
 expect.error(Iron.encrypt({ foo: "bar" }, options, "hello"))
@@ -71,8 +73,8 @@ expect.error(Iron.encrypt(password, options))
 Iron.decrypt(password, options, "uuddlrlrbabas")
 Iron.decrypt(buffer, options, "uuddlrlrbabas")
 
-expect.type<string>(Iron.decrypt(password, options, "uuddlrlrbabas"))
-expect.type<string>(Iron.decrypt(buffer, options, "uuddlrlrbabas"))
+expect.type<string>(await Iron.decrypt(password, options, "uuddlrlrbabas"))
+expect.type<string>(await Iron.decrypt(buffer, options, "uuddlrlrbabas"))
 
 expect.error(Iron.decrypt(256, options, "uuddlrlrbabas"))
 expect.error(Iron.decrypt({ foo: "bar" }, options, "uuddlrlrbabas"))
@@ -85,8 +87,8 @@ expect.error(Iron.decrypt(password, options))
 Iron.hmacWithPassword(password, options, 'some_string')
 Iron.hmacWithPassword(buffer, options, 'some_string')
 
-expect.type<{ digest: string, salt: string }>(Iron.hmacWithPassword(password, options, 'some_string'))
-expect.type<{ digest: string, salt: string }>(Iron.hmacWithPassword(buffer, options, 'some_string'))
+expect.type<{ digest: string, salt: string }>(await Iron.hmacWithPassword(password, options, 'some_string'))
+expect.type<{ digest: string, salt: string }>(await Iron.hmacWithPassword(buffer, options, 'some_string'))
 
 expect.error(Iron.hmacWithPassword(256, options, 'some_string'))
 expect.error(Iron.hmacWithPassword({ foo: "bar" }, options, 'some_string'))
@@ -104,8 +106,8 @@ Iron.seal(256, password, defaults)
 Iron.seal(["a", 1, true], password, defaults)
 Iron.seal(["a", 1, true], buffer, defaults)
 
-expect.type<string>(Iron.seal('seal_this_string', password, defaults))
-expect.type<string>(Iron.seal('seal_this_string', buffer, defaults))
+expect.type<string>(await Iron.seal('seal_this_string', password, defaults))
+expect.type<string>(await Iron.seal('seal_this_string', buffer, defaults))
 
 expect.error(Iron.seal('seal_this_string', 256, defaults))
 expect.error(Iron.seal('seal_this_string', password, options))
@@ -118,8 +120,8 @@ expect.error(Iron.seal('seal_this_string', password))
 Iron.unseal('uuddlrlrbabas', password, defaults)
 Iron.unseal('uuddlrlrbabas', buffer, defaults)
 
-expect.type<object>(Iron.unseal('uuddlrlrbabas', password, defaults))
-expect.type<object>(Iron.unseal('uuddlrlrbabas', buffer, defaults))
+expect.type<object>(await Iron.unseal('uuddlrlrbabas', password, defaults))
+expect.type<object>(await Iron.unseal('uuddlrlrbabas', buffer, defaults))
 
 expect.error(Iron.unseal(256, password, defaults))
 expect.error(Iron.unseal('uuddlrlrbabas', password, options))

@@ -1,7 +1,7 @@
 {
   "name": "@hapi/iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "repository": "git://github.com/hueniverse/iron",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

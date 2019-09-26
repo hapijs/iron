@@ -1,19 +1,4 @@
 
-## iron
-<!-- toc -->
-
-- [Methods](#methods)
-  - [`await seal(object, password, options)`](#await-sealobject-password-options)
-  - [`await unseal(sealed, password, options)`](#await-unsealsealed-password-options)
-  - [`await generateKey(password, options)`](#await-generatekeypassword-options)
-  - [`await encrypt(password, options, data)`](#await-encryptpassword-options-data)
-  - [`await decrypt(password, options, data)`](#await-decryptpassword-options-data)
-  - [`await hmacWithPassword(password, options, data)`](#await-hmacwithpasswordpassword-options-data)
-- [Options](#options)
-  - [Defaults](#defaults)
-
-<!-- tocstop -->
-
 ## Methods
 
 ### `await seal(object, password, options)`

@@ -1,12 +1,3 @@
-## iron
-
-- [Introduction](#introduction)
-- [Usage](#usage)
-  - [Options](#options)
-- [Security Considerations](#security-considerations)
-  - [Plaintext Storage of Credentials](#plaintext-storage-of-credentials)
-- [Frequently Asked Questions](#frequently-asked-questions)
-- [Acknowledgements](#acknowledgements)
 
 # Introduction
 

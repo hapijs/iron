@@ -30,7 +30,7 @@ The seal process follows these general steps:
 - mac the encrypted object along with `saltE` and `iv`
 - concatenate `saltE`, `saltI`, `iv`, and the encrypted object into a URI-friendly string
 
-## Usage
+## Example
 
 To seal an object:
 

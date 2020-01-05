@@ -52,7 +52,7 @@ export interface GenerateKeyOptions extends Pick<SealOptionsSub, 'algorithm' | '
 
     saltBits?: number;
     salt?: string;
-    iv?: string;
+    iv?: Buffer;
 }
 
 
@@ -94,7 +94,7 @@ Generated internal key object.
 export interface Key {
     key: Buffer;
     salt: string;
-    iv: string;
+    iv: Buffer;
 }
 
 

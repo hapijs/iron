@@ -5,24 +5,24 @@
   "repository": "git://github.com/hueniverse/iron",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "authentication",
     "encryption",
     "data integrity"
   ],
-  "files": [
-    "lib"
-  ],
   "dependencies": {
-    "@hapi/hoek": "8.x.x",
-    "@hapi/b64": "4.x.x",
-    "@hapi/boom": "7.x.x",
-    "@hapi/bourne": "1.x.x",
-    "@hapi/cryptiles": "4.x.x"
+    "@hapi/hoek": "9.x.x",
+    "@hapi/b64": "5.x.x",
+    "@hapi/boom": "9.x.x",
+    "@hapi/bourne": "2.x.x",
+    "@hapi/cryptiles": "5.x.x"
   },
   "devDependencies": {
-    "@hapi/code": "6.x.x",
-    "@hapi/lab": "20.x.x"
+    "@hapi/code": "8.x.x",
+    "@hapi/lab": "22.x.x"
   },
   "scripts": {
     "test": "lab -a @hapi/code -t 100 -L -Y",

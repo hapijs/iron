@@ -111,7 +111,7 @@ Special thanks to Adam Barth for his infinite patience, and always insightful fe
 Seriealizes, encrypts, and signs objects into an **iron** protocol string where:
 
 - `object` - the data being sealed. Can be any JavaScript value that is serializable via
-  `JSON.stringify()`.
+  `JSON.stringify()`. **Note**: `JSON.strinfify` will not keep object properties which values are `undefined`. So if you pass an object like `{id: undefined}` then it will be serialized as `{}`.
 
 - `password` - one of:
 

@@ -3,6 +3,9 @@
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
   "version": "4.1.0",
   "repository": "git://github.com/hapijs/iron",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "main": "lib/index.js",
   "keywords": [
     "authentication",

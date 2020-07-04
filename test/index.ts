@@ -1,11 +1,13 @@
 import * as Iron from '..';
 import * as Lab from '@hapi/lab';
 
-const Cryptiles = require('@hapi/cryptiles');
+const Cryptiles = require('@commercial/cryptiles');
 
 
 const { expect } = Lab.types;
 
+
+// $lab:types:off$
 
 const password = 'some_not_random_password_that_is_also_long_enough';
 
@@ -36,7 +38,7 @@ const options = {
     salt: '4d8nr9q384nr9q384nr93q8nruq9348run',
     algorithm: 'aes-128-ctr',
     iterations: 10000,
-    iv: 'sdfsdfsdfsdfscdrgercgesrcgsercg',
+    iv: '501718f809f03bc0beedd41bcf94b0dd',
     minPasswordlength: 32
 } as Iron.GenerateKeyOptions;
 

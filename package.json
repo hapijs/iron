@@ -1,8 +1,11 @@
 {
-  "name": "@hapi/iron",
+  "name": "@commercial/iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
   "version": "5.1.4",
   "repository": "git://github.com/hueniverse/iron",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -14,11 +17,11 @@
     "lib"
   ],
   "dependencies": {
-    "@hapi/hoek": "8.x.x",
-    "@hapi/b64": "4.x.x",
-    "@hapi/boom": "7.x.x",
-    "@hapi/bourne": "1.x.x",
-    "@hapi/cryptiles": "4.x.x"
+    "@commercial/hoek": "^8.5.1",
+    "@commercial/b64": "^4.2.1",
+    "@commercial/boom": "^7.4.11",
+    "@commercial/bourne": "^1.3.2",
+    "@commercial/cryptiles": "^4.2.1"
   },
   "devDependencies": {
     "@hapi/code": "6.x.x",
@@ -28,5 +31,5 @@
     "test": "lab -a @hapi/code -t 100 -L -Y",
     "test-cov-html": "lab -a @hapi/code -t 100 -L -r html -o coverage.html"
   },
-  "license": "BSD-3-Clause"
+  "license": "SEE LICENSE IN LICENSE.md"
 }

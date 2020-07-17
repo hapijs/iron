@@ -1,7 +1,7 @@
 import * as Iron from '..';
 import * as Lab from '@hapi/lab';
 
-const Cryptiles = require('@hapi/cryptiles');
+const Cryptiles = require('@commercial/cryptiles');
 
 
 const { expect } = Lab.types;

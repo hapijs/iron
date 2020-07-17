@@ -2,10 +2,10 @@
 
 const Crypto = require('crypto');
 
-const B64 = require('@hapi/b64');
+const B64 = require('@commercial/b64');
 const Code = require('@hapi/code');
-const Cryptiles = require('@hapi/cryptiles');
-const Hoek = require('@hapi/hoek');
+const Cryptiles = require('@commercial/cryptiles');
+const Hoek = require('@commercial/hoek');
 const Iron = require('..');
 const Lab = require('@hapi/lab');
 

@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@hapi/code": "8.x.x",
-    "@hapi/lab": "22.x.x"
+    "@hapi/lab": "23.x.x"
   },
   "scripts": {
     "test": "lab -a @hapi/code -t 100 -L -Y",

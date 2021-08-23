@@ -13,6 +13,11 @@
     "encryption",
     "data integrity"
   ],
+  "eslintConfig": {
+    "extends": [
+      "plugin:@hapi/module"
+    ]
+  },
   "dependencies": {
     "@hapi/hoek": "9.x.x",
     "@hapi/b64": "5.x.x",
@@ -22,6 +27,7 @@
   },
   "devDependencies": {
     "@hapi/code": "8.x.x",
+    "@hapi/eslint-plugin": "*",
     "@hapi/lab": "24.x.x",
     "typescript": "~4.0.2"
   },

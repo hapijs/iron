@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@hapi/hoek": "^10.0.0",
-    "@hapi/b64": "^5.0.0",
+    "@hapi/b64": "^6.0.0",
     "@hapi/boom": "^10.0.0",
     "@hapi/bourne": "^3.0.0",
     "@hapi/cryptiles": "^6.0.0"

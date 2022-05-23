@@ -59,6 +59,19 @@ describe('Iron', () => {
         expect(unsealed).to.equal(obj);
     });
 
+    it('unseal and sealed object without time offset', async () => {
+
+        const options = Hoek.clone(Iron.defaults);
+        options.ttl = 200;
+        delete options.localtimeOffsetMsec;
+        const sealed = await Iron.seal(obj, password, options);
+
+        const options2 = Hoek.clone(Iron.defaults);
+        delete options2.localtimeOffsetMsec;
+        const unsealed = await Iron.unseal(sealed, { 'default': password }, options2);
+        expect(unsealed).to.equal(obj);
+    });
+
     it('turns object into a ticket than parses the ticket successfully (password buffer)', async () => {
 
         const key = Cryptiles.randomBits(256);

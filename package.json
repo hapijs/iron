@@ -1,7 +1,7 @@
 {
   "name": "iron",
   "description": "Encapsulated tokens (encrypted and mac'ed objects)",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "repository": "git://github.com/hapijs/iron",
   "engines": {
     "node": ">=6.0.0"

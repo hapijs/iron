@@ -6,6 +6,7 @@ const B64 = require('@hapi/b64');
 const Code = require('@hapi/code');
 const Cryptiles = require('@hapi/cryptiles');
 const Hoek = require('@hapi/hoek');
+const Somever = require('@hapi/somever');
 const Iron = require('..');
 const Lab = require('@hapi/lab');
 
@@ -352,7 +353,11 @@ describe('Iron', () => {
             const macBaseString = Iron.macPrefix + '**' + key.salt + '*' + iv + '*' + encryptedB64 + '*';
             const mac = await Iron.hmacWithPassword(password, Iron.defaults.integrity, macBaseString);
             const ticket = macBaseString + '*' + mac.salt + '*' + mac.digest;
-            const err = await expect(Iron.unseal(ticket, password, Iron.defaults)).to.reject(/Failed parsing sealed object JSON: Unexpected token a/);
+            const err = await expect(Iron.unseal(ticket, password, Iron.defaults)).to.reject(
+                Somever.match(process.version, '>=20') ?
+                    /Failed parsing sealed object JSON: Expected property name or '}' in JSON at position 1/ :
+                    /Failed parsing sealed object JSON: Unexpected token a/
+            );
             expect(err.isBoom).to.be.true();
         });
 
